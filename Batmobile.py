@@ -1,0 +1,2 @@
+class Batmobile:
+    donors = []
