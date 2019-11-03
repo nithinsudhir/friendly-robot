@@ -25,6 +25,12 @@ class System:
         else:
             stub()
 
+    def filterByType(self, blood_type):
+        for item in self.blood_bank:
+            if item.get_type() == blood_type:
+                item.print_details()
+        return True
+
 def stub():
     print("This functionality is not completed yet")
 
@@ -43,7 +49,7 @@ def init_blood_bank():
 
 
 def main():
-    bank = System();
+    bank = System()
     # print(bank.blood_bank)
     print("Welcome to the DafnyDuk Blood Managment System")
     print("You are logged in as administrator")
