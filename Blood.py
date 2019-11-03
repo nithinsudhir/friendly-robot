@@ -10,3 +10,6 @@ class Blood:
 
     def get_type(self):
         return self.type
+
+    def get_amount(self):
+        return self.amount
