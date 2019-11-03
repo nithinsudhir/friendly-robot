@@ -1,5 +1,5 @@
 import Batmobile
-import Blood
+from Blood import Blood
 import Donor
 import Request
 import json, re
@@ -11,7 +11,7 @@ class System:
     def get_occurences(self, blood_type):
         count = 0
         for item in self.blood_bank:
-            if item["Type"] == blood_type:
+            if  item.get_type() == blood_type:
                 count+=1
         return count
 
@@ -29,17 +29,21 @@ def stub():
     print("This functionality is not completed yet")
 
 def init_blood_bank():
-    print("called")
+    print("---Importing Blood---")
+    bank = []
+
     with open("data/deposits.json") as json_file:
         blood_json = (json.load(json_file))
-        # for person in blood_json:
-        #     print(person)
-    return blood_json
+        for sample in blood_json:
+            blood = Blood(sample["Type"],sample["IsValid"], sample["expiryDate"],sample["amount"])
+            # blood.print_details()
+            bank.append(blood)
+    return bank
 
 
 
 def main():
-    bank = DafnyDuk();
+    bank = System();
     # print(bank.blood_bank)
     print("Welcome to the DafnyDuk Blood Managment System")
     print("You are logged in as administrator")
