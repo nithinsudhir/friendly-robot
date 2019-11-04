@@ -13,6 +13,13 @@ class System:
             if  item.get_blood_type() == blood_type:
                 count += 1
         return count
+    
+    def get_amount_type(self, blood_type):
+        amount = 0
+        for item in self.blood_bank:
+            if  item.get_type() == blood_type:
+                amount+=item.get_amount()
+        return amount
 
     def count(self):
         option = input("Enter (A|B|AB|O)+- to specify type [optional]:\n")
@@ -20,6 +27,20 @@ class System:
             print(len(self.blood_bank))
         elif re.match(r"^(A|B|AB|O)[+-]$", option):
             count = self.get_occurences(option)
+            print(count)
+        else:
+            stub()
+
+    def amount(self):
+        option = input("Enter (A|B|AB|O)+- to specify type [optional]:\n")
+        if option == "":
+            amount = 0
+            for item in self.blood_bank:
+                amount+=item.get_amount()
+            print(amount)
+            print("WARNING: Total valid blood irrespective of type displayed")
+        elif re.match(r"^(A|B|AB|O)[+-]$",option):
+            count = self.get_amount_type(option)
             print(count)
         else:
             stub()
