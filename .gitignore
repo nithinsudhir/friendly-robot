@@ -1,0 +1,7 @@
+# Editors
+.vscode/
+
+# Mac/OSX
+.DS_Store
+
+__pycache__/
