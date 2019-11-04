@@ -19,7 +19,7 @@ elif current_user == 'D':
 else:
     exit()
 
-print(f'You are logged in as a {current_user.get_user_type()}\n')
+print("You are logged in as a " + {current_user.get_user_type()})
 
 system = System()
 
