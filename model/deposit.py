@@ -7,6 +7,9 @@ class Deposit:
 
     def get_blood_type(self):
         return self.blood_type
+    
+    def get_amount(self):
+        return self.amount
 
     # returns a nicely formatted string representation of a blood deposit when printed
     def __str__(self):
