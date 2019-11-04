@@ -4,22 +4,27 @@ from model.administrator import Administrator
 from model.hospital import Hospital
 from model.donor import Donor
 
+def login(current_user):
+    if current_user == 'A':
+        return Administrator()
+    elif current_user == 'H':
+        return Hospital()
+    elif current_user == 'D':
+        return Donor()
+    else:
+        print("Invalid user. Please try again")
+        current_user = input("\nPlease enter your user type (A/H/D): ")
+        user = login(current_user)
+        return user
+
 print("Welcome to the DafnyDuk Blood Managment System")
 
 print("\nThis system accepts three different types of users:\nA - Administrator\nH - Hospital\nD - Donor")
 
 current_user = input("\nPlease enter your user type (A/H/D): ")
+user = login(current_user)
 
-if current_user == 'A':
-    current_user = Administrator()
-elif current_user == 'H':
-    current_user = Hospital()
-elif current_user == 'D':
-    current_user = Donor()
-else:
-    exit()
-
-print("You are logged in as a " + {current_user.get_user_type()})
+print("Logged in as "+ str(user.get_user_type()))
 
 system = System()
 
@@ -27,6 +32,7 @@ while True:
     action = input("Enter a command:\n")
     if action == "h":
         print("\"count\",\tview count of valid blood in bank")
+        print("\"amount\",\tview amount of valid blood in bank [optionally by type]")
     elif action == "count":
         system.count()
     elif action == "amount":
