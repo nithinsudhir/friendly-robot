@@ -29,6 +29,8 @@ while True:
         print("\"count\",\tview count of valid blood in bank")
     elif action == "count":
         system.count()
+    elif action == "amount":
+        system.amount()
     else:
         print("Command not recognised, please try again")
         print("To view help, enter \"h\"")
