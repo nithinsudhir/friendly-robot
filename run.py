@@ -6,7 +6,7 @@ from model.donor import Donor
 
 def login(current_user):
     if current_user == 'A':
-        return Administrator()
+        return Administrator(system)
     elif current_user == 'H':
         return Hospital()
     elif current_user == 'D':
@@ -17,6 +17,8 @@ def login(current_user):
         user = login(current_user)
         return user
 
+system = System()
+
 print("Welcome to the DafnyDuk Blood Managment System")
 
 print("\nThis system accepts three different types of users:\nA - Administrator\nH - Hospital\nD - Donor")
@@ -25,8 +27,6 @@ current_user = input("\nPlease enter your user type (A/H/D): ")
 user = login(current_user)
 
 print("Logged in as "+ str(user.get_user_type()))
-
-system = System()
 
 while True:
     action = input("Enter a command:\n")
@@ -37,6 +37,21 @@ while True:
         system.count()
     elif action == "amount":
         system.amount()
+    elif action == "add":
+        blood_type = input("Enter blood type: ")
+        is_valid = input("Enter valid: ")
+        expiry_date = input("Enter expiry date: ")
+        amount = input("Enter amount: ")
+        user.add_blood_deposit(blood_type, is_valid, expiry_date, amount)
+    elif action == "remove":
+        # this is an unnecessarily annoying way to remove blood deposits
+        # we should add an id attribute to each blood deposit, and then remove based on id
+        # donors should also have an id, and each blood deposit should have a reference to their donor id
+        blood_type = input("Enter blood type: ")
+        is_valid = input("Enter valid: ")
+        expiry_date = input("Enter expiry date: ")
+        amount = input("Enter amount: ")
+        user.remove_blood_deposit(blood_type, is_valid, expiry_date, amount)
     else:
         print("Command not recognised, please try again")
         print("To view help, enter \"h\"")
