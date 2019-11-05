@@ -52,6 +52,15 @@ while True:
         expiry_date = input("Enter expiry date: ")
         amount = input("Enter amount: ")
         user.remove_blood_deposit(blood_type, is_valid, expiry_date, amount)
+    elif action == "addDonor":
+        first_name = input("Enter first name: ")
+        last_name = input("Enter last name: ")
+        age = input("Enter age: ")
+        email = input("Enter email: ")
+        phone = input("Enter phone number: ")
+        blood_type = input("Enter blood type: ")
+        allergens = input("Enter allergens: ")
+        user.add_donor(first_name,last_name, age, email, phone, blood_type, allergens)
     else:
         print("Command not recognised, please try again")
         print("To view help, enter \"h\"")

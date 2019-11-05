@@ -9,7 +9,7 @@ class Donor(User):
         self.contact_phone = contact_phone 
         self.blood_type = blood_type 
         self.allergens = allergens 
-        self.is_elligible = determine_elgibility(age, allergens)
+        self.is_elligible = determine_elgibility(self.age, self.allergens)
         self.user_type = 'Donor'
 
     def set_eligible(self, eligibility):
@@ -19,5 +19,11 @@ class Donor(User):
     def __str__(self):
         return f'\nBlood Donor\nID: {id(self)}\nName: {self.first_name} {self.last_name}\nAge: {self.age}\nContact: {self.email}\nBlood Type: {self.blood_type}\nAllergens: {self.allergens}\nEligibility: {self.is_elligible}\n'
 
+    def get_is_elligible():
+        return self.is_elligible
+
+    def get_user_type(self):
+        return self.user_type
+
 def determine_elgibility(age, allergens):
-    return True if age < 75 and allergens == "NA" else False
+    return True if int(age) < int(75) and allergens == "N/A" else False

@@ -6,6 +6,8 @@ import json, re
 class System:
     def __init__(self):
        self.blood_bank = init_blood_bank()
+       self.donors = init_donors()
+       
 
     def get_occurences(self, blood_type):
         count = 0
@@ -92,6 +94,27 @@ class System:
 
 
 
+       
+    def add_donor(self, user, first_name, last_name, age, email, phone, blood_type, allergens):
+        
+        print("Inside system: add donor")
+        if user.get_user_type() == 'Administrator':
+            with open("data/donors.json", "r+") as donors_file:
+                print ("Opened json file")
+                donors = json.load(donors_file)
+                new_donor = {"firstname": first_name, "lastname": last_name,"age": age, "email": email, "phone": phone,"bloodType": blood_type, "allergens": allergens}
+                donors.append(new_donor)
+                print("Appended to json")
+                donors_file.seek(0)
+                json.dump(donors, donors_file, indent = 2)
+                self.donors.append(Donor(first_name, last_name, age, email, phone, blood_type, allergens))
+                print('Sucessfully added donor to system.')
+        else:
+            print('Could not add donor record - only administrators can add new donors.')
+
+    
+
+
 def stub():
     print("This functionality is not completed yet")
 
@@ -106,3 +129,15 @@ def init_blood_bank():
             print(deposit)
             bank.append(deposit)
     return bank
+
+def init_donors():
+    print("---Importing Donor Records---")
+    registered_donors = []
+
+    with open("data/donors.json") as json_file:
+        donors = (json.load(json_file))
+        for sample in donors:
+            donor = Donor(sample["firstname"], sample["lastname"], sample["age"], sample["email"], sample["phone"], sample["bloodType"], sample["allergens"])
+            print (donor)
+            registered_donors.append(donor)
+    return registered_donors

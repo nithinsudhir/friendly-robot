@@ -1,0 +1,20 @@
+[
+  {
+    "firstname": "John",
+    "lastname": "Shepherd",
+    "age": 30,
+    "email": "jas@gmail.com",
+    "phone": "24197249",
+    "bloodType": "O+",
+    "allergens": "N/A"
+  },
+  {
+    "firstname": "Tom",
+    "lastname": "Fish",
+    "age": "79",
+    "email": "xyz",
+    "phone": "123",
+    "bloodType": "A+",
+    "allergens": "N/A"
+  }
+]

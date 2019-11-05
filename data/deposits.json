@@ -304,5 +304,23 @@
     "IsValid": "c",
     "expiryDate": "c",
     "amount": "c"
+  },
+  {
+    "Type": "O",
+    "IsValid": "True",
+    "expiryDate": "dsjf",
+    "amount": "sdf"
+  },
+  {
+    "Type": "A",
+    "IsValid": "",
+    "expiryDate": "",
+    "amount": ""
+  },
+  {
+    "Type": "njsdf",
+    "IsValid": "dsds",
+    "expiryDate": "ds",
+    "amount": "ds"
   }
 ]
