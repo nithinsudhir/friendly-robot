@@ -15,6 +15,6 @@ class Administrator(User):
     def add_donor(self, first_name, last_name, age, email, phone, blood_type, allergens):
         self.system.add_donor(self, first_name, last_name, age, email, phone, blood_type, allergens)
 
-
+    
     def get_user_type(self):
         return self.user_type

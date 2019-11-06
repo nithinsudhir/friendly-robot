@@ -100,11 +100,9 @@ class System:
         print("Inside system: add donor")
         if user.get_user_type() == 'Administrator':
             with open("data/donors.json", "r+") as donors_file:
-                print ("Opened json file")
                 donors = json.load(donors_file)
                 new_donor = {"firstname": first_name, "lastname": last_name,"age": age, "email": email, "phone": phone,"bloodType": blood_type, "allergens": allergens}
                 donors.append(new_donor)
-                print("Appended to json")
                 donors_file.seek(0)
                 json.dump(donors, donors_file, indent = 2)
                 self.donors.append(Donor(first_name, last_name, age, email, phone, blood_type, allergens))
