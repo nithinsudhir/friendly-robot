@@ -1,13 +1,12 @@
 import random
 import os
 
-# id, donor_id, type, expiry, amount
-
 NUM_DEPOSITS = 10
 NUM_DONORS = 10
+NUM_HOSPITALS = 10
 NUM_BLOOD_TYPES = 4
 BLOOD_TYPES = [i for i in range(NUM_BLOOD_TYPES)]
-MIN_DATE = 0 # 01/01/2019
+MIN_DATE = 0    # 01/01/2019
 MAX_DATE = 1825 # 01/01/2024
 MIN_DEPOSIT_AMOUNT = 50
 MAX_DEPOSIT_AMOUNT = 100
@@ -19,10 +18,11 @@ ALLERGENS = ('Peanuts', 'Penicillin', 'Cheese')
 
 DEPOSIT_IDS = [i for i in range(NUM_DEPOSITS)]
 DONOR_IDS = [i for i in range(NUM_DONORS)]
+HOSPITAL_IDS = [i for i in range(NUM_HOSPITALS)]
 
 CURRENT_DIRECTORY = os.getcwd()
 
-# generate deposits and write to csv file
+# generate deposit data and write to csv file
 deposits_csv = open(CURRENT_DIRECTORY + '/data/deposits.csv', 'w')
 text = 'Deposit ID,Donor ID,Blood Type,Expiry Date,Amount\n'
 for i in range(NUM_DEPOSITS):
@@ -36,7 +36,7 @@ for i in range(NUM_DEPOSITS):
 deposits_csv.write(text)
 deposits_csv.close()
  
-# generate donors and write to csv file
+# generate donor data and write to csv file
 donors_csv = open(CURRENT_DIRECTORY + '/data/donors.csv', 'w')
 text = 'Donor ID,First Name,Last Name, Age, Blood Type, Email Address, Allergens\n'
 for i in range(NUM_DONORS):
@@ -52,5 +52,14 @@ for i in range(NUM_DONORS):
 donors_csv.write(text)
 donors_csv.close()
 
-# generate hospitals and write to csv file
-# coming soon...
+# generate hospital data and write to csv file
+hospitals_csv = open(CURRENT_DIRECTORY + '/data/hospitals.csv', 'w')
+text = 'Hospital ID, X-Coordinate, Y-Coordinate\n'
+for i in range(NUM_DONORS):
+    hospital_id = HOSPITAL_IDS[i]
+    x_coordinate = random.randint(0, NUM_HOSPITALS)
+    y_coordinate = random.randint(0, NUM_HOSPITALS)
+    text += str(hospital_id) + ',' + str(x_coordinate) + ',' + str(y_coordinate) + '\n'
+
+hospitals_csv.write(text)
+hospitals_csv.close()

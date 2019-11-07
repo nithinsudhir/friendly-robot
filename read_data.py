@@ -12,6 +12,7 @@ def get_deposits(deposits_path):
     return deposits    
 
 # print for debugging
+print('\n\n')
 print('Deposits:')
 deposits = get_deposits('data/deposits.csv')
 for deposit in deposits:
@@ -35,6 +36,20 @@ donors = get_donors('data/donors.csv')
 for donor in donors:
     print(donor)
 
-# coming soon...
+
 def get_hospitals(hospitals_path):
-    pass
+    hospitals = []
+    with open(hospitals_path) as hospitals_csv:
+        reader = csv.reader(hospitals_csv, delimiter = ',')
+        next(reader)    # skip first line of csv file (headings)
+        for row in reader:
+            hospital = [int(row[0]), int(row[1]), int(row[2])]
+            hospitals.append(hospital)
+    return hospitals
+
+# print for debugging
+print('\n\n')
+print('Hospitals:')
+hospitals = get_hospitals('data/hospitals.csv')
+for hospital in hospitals:
+    print(hospital)
