@@ -9,8 +9,7 @@ NUM_BLOOD_TYPES = 4
 BLOOD_TYPES = [i for i in range(NUM_BLOOD_TYPES)]
 MIN_DATE = 0     # 01/01/2019
 MAX_DATE = 1825  # 01/01/2024
-MIN_DEPOSIT_AMOUNT = 50
-MAX_DEPOSIT_AMOUNT = 100
+DEPOSIT_AMOUNTS = (250, 500)
 MIN_AGE = 10
 MAX_AGE = 100
 FIRST_NAMES = ('Jack', 'Jill', 'Susan', 'Bob', 'Sam')
@@ -31,7 +30,7 @@ for i in range(NUM_DEPOSITS):
     donor_id = DONOR_IDS[i]
     blood_type = BLOOD_TYPES[donor_id % NUM_BLOOD_TYPES]
     expiry_date = random.randint(MIN_DATE, MAX_DATE)
-    amount = random.randint(MIN_DEPOSIT_AMOUNT, MAX_DEPOSIT_AMOUNT)
+    amount = random.choice(DEPOSIT_AMOUNTS)
     text += str(deposit_id) + ',' + str(donor_id) + ',' + str(blood_type) + ',' + str(expiry_date) + ',' + str(expiry_date) + ',' + str(amount) + '\n'
  
 deposits_csv.write(text)
@@ -67,12 +66,13 @@ hospitals_csv.close()
 
 # generate request data and write to csv file (initially there are no requests)
 requests_csv = open(CURRENT_DIRECTORY + '/data/requests.csv', 'w')
-text = 'Hospital ID, Blood Type, Blood Quantity\n'
+text = 'Hospital ID, Blood Type, Blood Quantity, Approved/Rejected\n'
 for i in range(NUM_REQUESTS):
     hospital_id = random.choice(HOSPITAL_IDS)
     blood_type = random.choice(BLOOD_TYPES)
-    blood_amount = random.randint(MIN_DEPOSIT_AMOUNT, MAX_DEPOSIT_AMOUNT)
-    text += str(hospital_id) + ',' + str(blood_type) + ',' + str(blood_amount) + '\n'
+    blood_amount = random.choice(DEPOSIT_AMOUNTS)
+    accept = random.choice((0, 1))
+    text += str(hospital_id) + ',' + str(blood_type) + ',' + str(blood_amount) + ',' + str(accept) + '\n'
 
 requests_csv.write(text)
 requests_csv.close()

@@ -21,8 +21,8 @@
 - `model/administrator.py` - defines `Administrator` class (type of User)
 
 #### Usage
-- run `python generate_data.py` to write csv files with random deposits, donors, and hospitals
-- run `python run.py` from the root directory to initialise the blood management system i.e. load all the blood deposits from `data/deposits.json` into the `blood_bank` list and wait for user to enter a command
+- run `python generate_data.py` to write csv files with random deposits, donors, hospitals, and requests
+- run `python run.py` from the root directory to initialise the blood management system i.e. load all the data from `data/.*` into the system and wait for user to enter a command
 
 #### Notes
 - Blood Types: `(A, B, AB, O)` ---> `(0, 1, 2, 3)`

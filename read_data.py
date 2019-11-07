@@ -60,7 +60,7 @@ def get_requests(requests_path):
         reader = csv.reader(requests_csv, delimiter = ',')
         next(reader)    # skip first line of csv file (headings)
         for row in reader:
-            request = [int(row[0]), int(row[1]), int(row[2])]
+            request = [int(row[0]), int(row[1]), int(row[2]), int(row[3])]
             requests.append(request)
     return requests
 
