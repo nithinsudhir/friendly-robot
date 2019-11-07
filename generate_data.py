@@ -4,10 +4,11 @@ import os
 NUM_DEPOSITS = 10
 NUM_DONORS = 10
 NUM_HOSPITALS = 10
+NUM_REQUESTS = 0 # initially there are no requests
 NUM_BLOOD_TYPES = 4
 BLOOD_TYPES = [i for i in range(NUM_BLOOD_TYPES)]
-MIN_DATE = 0    # 01/01/2019
-MAX_DATE = 1825 # 01/01/2024
+MIN_DATE = 0     # 01/01/2019
+MAX_DATE = 1825  # 01/01/2024
 MIN_DEPOSIT_AMOUNT = 50
 MAX_DEPOSIT_AMOUNT = 100
 MIN_AGE = 10
@@ -63,3 +64,15 @@ for i in range(NUM_DONORS):
 
 hospitals_csv.write(text)
 hospitals_csv.close()
+
+# generate request data and write to csv file (initially there are no requests)
+requests_csv = open(CURRENT_DIRECTORY + '/data/requests.csv', 'w')
+text = 'Hospital ID, Blood Type, Blood Quantity\n'
+for i in range(NUM_REQUESTS):
+    hospital_id = random.choice(HOSPITAL_IDS)
+    blood_type = random.choice(BLOOD_TYPES)
+    blood_amount = random.randint(MIN_DEPOSIT_AMOUNT, MAX_DEPOSIT_AMOUNT)
+    text += str(hospital_id) + ',' + str(blood_type) + ',' + str(blood_amount) + '\n'
+
+requests_csv.write(text)
+requests_csv.close()
