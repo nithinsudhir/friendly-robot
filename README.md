@@ -5,6 +5,7 @@
 #### Data
 - `data/deposits.csv` - stores information for all blood deposits the system is responsible for
 - `data/donors.csv` - stores information for all blood donors the system is responsible for
+- `data/hospitals.csv` - stores information for all hospitals the system is responsible for
 - `data/requests.csv` - stores information for all blood requests the system is responsible for
 
 #### Modules
