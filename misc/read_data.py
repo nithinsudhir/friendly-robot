@@ -10,12 +10,6 @@ def get_deposits(deposits_path):
             deposit = [int(row[0]), int(row[1]), int(row[2]), int(row[3]), int(row[4])]
             deposits.append(deposit)
     return deposits    
-
-# print for debugging
-print('Deposits:')
-deposits = get_deposits('data/deposits.csv')
-for deposit in deposits:
-    print(deposit)
  
 def get_donors(donors_path):
     donors = []
@@ -27,14 +21,22 @@ def get_donors(donors_path):
             donors.append(donor)
     return donors
  
-
-# print for debugging
-print('\n\n')
-print('Donors:')
-donors = get_donors('data/donors.csv')
-for donor in donors:
-    print(donor)
-
-# coming soon...
 def get_hospitals(hospitals_path):
-    pass
+    hospitals = []
+    with open(hospitals_path) as hospitals_csv:
+        reader = csv.reader(hospitals_csv, delimiter = ',')
+        next(reader)    # skip first line of csv file (headings)
+        for row in reader:
+            hospital = [int(row[0]), int(row[1]), int(row[2])]
+            hospitals.append(hospital)
+    return hospitals
+
+def get_requests(requests_path):
+    requests = []
+    with open(requests_path) as requests_csv:
+        reader = csv.reader(requests_csv, delimiter = ',')
+        next(reader)    # skip first line of csv file (headings)
+        for row in reader:
+            request = [int(row[0]), int(row[1]), int(row[2]), int(row[3])]
+            requests.append(request)
+    return requests
