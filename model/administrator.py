@@ -10,3 +10,9 @@ class Administrator(User):
 
     def remove_blood_deposit(self, blood_type, is_valid, expiry_date, amount):
         self.system.remove_blood_deposit(self, blood_type, is_valid, expiry_date, amount)
+
+    def print_instructions(self):
+        print('This system accepts the following commands:')
+        print('count - count number of blood deposits')
+        print('volume - count total volume of blood deposits')
+        print('help - print all available commands\n\n')

@@ -18,19 +18,12 @@ def login(current_user):
         current_user = input('Please enter your user type (A/H/D): ')
         user = login(current_user)
         return user
-logo = """
-  _____         __             _____        _    
- |  __ \       / _|           |  __ \      | |   
- | |  | | __ _| |_ _ __  _   _| |  | |_   _| | __
- | |  | |/ _` |  _| '_ \| | | | |  | | | | | |/ /
- | |__| | (_| | | | | | | |_| | |__| | |_| |   < 
- |_____/ \__,_|_| |_| |_|\__, |_____/ \__,_|_|\_\\
-                          __/ |                  
-                         |___/                   
-"""
 
-print('\033[93m'+logo+'\033[0m')
-print("Welcome to the DafnyDuk Blood Managment System")
+def print_instructions():
+    print('This system accepts the following commands:')
+    print('count - count number of blood deposits')
+    print('volume - count total volume of blood deposits')
+    print('help - print all available commands\n\n')
 
 def handle_count():
     option = input('Enter (A|B|AB|O) to specify type [optional]: ')
@@ -60,7 +53,19 @@ def handle_add():
 def handle_remove():
     pass
 
-print('Welcome to the DafnyDuk Blood Managment System\n')
+logo = """
+  _____         __             _____        _    
+ |  __ \       / _|           |  __ \      | |   
+ | |  | | __ _| |_ _ __  _   _| |  | |_   _| | __
+ | |  | |/ _` |  _| '_ \| | | | |  | | | | | |/ /
+ | |__| | (_| | | | | | | |_| | |__| | |_| |   < 
+ |_____/ \__,_|_| |_| |_|\__, |_____/ \__,_|_|\_\\
+                          __/ |                  
+                         |___/                   
+"""
+
+print('\033[93m'+logo+'\033[0m')
+print("Welcome to the DafnyDuk Blood Managment System")
 
 print('Initialising system...\n')
 system = System()
@@ -75,7 +80,7 @@ user = login(current_user)
 
 print('Logged in as '+ str(user.get_user_type()))
 
-print_instructions()
+user.print_instructions()
 
 while True:
 
