@@ -84,36 +84,3 @@ class System:
     #     else:
     #         print("The type you have entered is invalid. Please try again")
     #         self.amount()
-
-    # def add_blood_deposit(self, user, blood_type, is_valid, expiry_date, amount):
-    #     # should first check if deposit is valid
-    #     if user.get_user_type() == 'Administrator':
-    #         with open("data/deposits.json", "r+") as deposits_file:
-    #             deposits = json.load(deposits_file)
-    #             new_deposit = {"Type": blood_type, "IsValid": is_valid, "expiryDate": expiry_date, "amount": amount}
-    #             deposits.append(new_deposit)
-    #             deposits_file.seek(0)
-    #             json.dump(deposits, deposits_file, indent = 2)
-    #             self.blood_bank.append(Deposit(blood_type, is_valid, expiry_date, amount))
-    #             print('Sucessfully added blood deposit to system.')
-    #     else:
-    #         print('Could not add blood deposit - only administrators can add blood deposits.')
-        
-    # def remove_blood_deposit(self, user, blood_type, is_valid, expiry_date, amount):
-    #     if user.get_user_type() == 'Administrator':
-    #         with open("data/deposits.json", "r") as deposits_file:
-    #             deposits = json.load(deposits_file)
-    #         if is_valid == "true":
-    #             is_valid = True
-    #         else:
-    #             is_valid = False
-    #         amount = float(amount)
-    #         new_deposit = {"Type": blood_type, "IsValid": is_valid, "expiryDate": expiry_date, "amount": amount}
-    #         if new_deposit in deposits:
-    #             deposits.remove(new_deposit)
-    #             self.blood_bank.remove(Deposit(blood_type, is_valid, expiry_date, amount))
-    #             with open("data/deposits.json", "w") as deposits_file:
-    #                 json.dump(deposits, deposits_file, indent = 2)
-    #                 print('Sucessfully removed blood deposit from system.')
-    #     else:
-    #         print('Could not remove blood deposit - only administrators can remove blood deposits.')
