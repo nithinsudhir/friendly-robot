@@ -3,7 +3,7 @@ from model.user import User
 from model.administrator import Administrator
 from model.hospital import Hospital
 from model.donor import Donor
-from utility_functions import type_to_int
+from misc.utility_functions import type_to_int
 import re
 
 def login(current_user):

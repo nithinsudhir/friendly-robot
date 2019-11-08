@@ -1,7 +1,7 @@
 from model.deposit import Deposit
 from model.donor import Donor
 from model.request import Request
-from read_data import get_deposits, get_donors, get_hospitals, get_requests
+from misc.read_data import get_deposits, get_donors, get_hospitals, get_requests
 
 class System:
     def __init__(self):
