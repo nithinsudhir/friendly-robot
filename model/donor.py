@@ -1,4 +1,4 @@
-from .user import User
+from model.user import User
 
 class Donor(User):
     def __init__(self, first_name = None, last_name = None, age = 0, email = None, contact_phone = None, blood_type = None, allergens = None):

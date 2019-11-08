@@ -3,17 +3,19 @@ from model.user import User
 from model.administrator import Administrator
 from model.hospital import Hospital
 from model.donor import Donor
+from misc.utility_functions import type_to_int
+import re
 
 def login(current_user):
     if current_user == 'A':
-        return Administrator()
+        return Administrator(system)
     elif current_user == 'H':
-        return Hospital()
+        return Hospital(system)
     elif current_user == 'D':
-        return Donor()
+        return Donor(system)
     else:
-        print("Invalid user. Please try again")
-        current_user = input("\nPlease enter your user type (A/H/D): ")
+        print('Invalid user. Please try again')
+        current_user = input('Please enter your user type (A/H/D): ')
         user = login(current_user)
         return user
 logo = """
@@ -30,24 +32,70 @@ logo = """
 print('\033[93m'+logo+'\033[0m')
 print("Welcome to the DafnyDuk Blood Managment System")
 
-print("\nThis system accepts three different types of users:\nA - Administrator\nH - Hospital\nD - Donor")
+def handle_count():
+    option = input('Enter (A|B|AB|O) to specify type [optional]: ')
+    if not option:
+        print(system.count_deposits())
+    elif re.match(r'^(A|B|AB|O)$', option):
+        blood_type = type_to_int(option)
+        print(system.count_deposits(blood_type))
+    else:
+        print('Unrecognised blood type, please try again.')
+        handle_count()
 
-current_user = input("\nPlease enter your user type (A/H/D): ")
+def handle_volume():
+    option = input('Enter (A|B|AB|O) to specify type [optional]: ')
+    if not option:
+        print(system.count_volume())
+    elif re.match(r'^(A|B|AB|O)$', option):
+        blood_type = type_to_int(option)
+        print(system.count_volume(blood_type))
+    else:
+        print('Unrecognised blood type, please try again.')
+        handle_volume()
+
+def handle_add():
+    pass
+
+def handle_remove():
+    pass
+
+print('Welcome to the DafnyDuk Blood Managment System\n')
+
+print('Initialising system...\n')
+system = System()
+print('System initialised successfully.\n')
+
+print('This system accepts three different types of users:')
+print('A - Administrator')
+print('H - Hospital')
+print('D - Donor\n\n')
+current_user = input('Please enter your user type (A/H/D): ')
 user = login(current_user)
 
-print("Logged in as "+ str(user.get_user_type()))
+print('Logged in as '+ str(user.get_user_type()))
 
-system = System()
+print_instructions()
 
 while True:
-    action = input("Enter a command:\n")
-    if action == "h":
-        print("\"count\",\tview count of valid blood in bank")
-        print("\"amount\",\tview amount of valid blood in bank [optionally by type]")
-    elif action == "count":
-        system.count()
-    elif action == "amount":
-        system.amount()
+
+    action = input('Enter a command: ')
+
+    if action == 'help':
+        print_instructions()
+    
+    elif action == 'count':
+        handle_count()
+    
+    elif action == 'volume':
+        handle_volume()
+
+    elif action == 'add':
+        handle_count()
+
+    elif action == 'remove':
+        handle_remove()
+    
     else:
-        print("Command not recognised, please try again")
-        print("To view help, enter \"h\"")
+        print('Command not recognised, please try again')
+        continue
