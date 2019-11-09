@@ -78,7 +78,10 @@ def handle_filter():
     else:
         print('Unrecognised blood type, please try again.')
         handle_filter()
-    
+
+def warn_scarce_blood_types():
+    scarce = system.get_scarce_blood_types(2000)
+    print_scarce_blood(scarce)
     
 
 print('Welcome to the DafnyDuk Blood Managment System\n')
@@ -97,7 +100,7 @@ user = login(current_user)
 print('Logged in as '+ str(user.get_user_type()))
 
 print_instructions()
-
+warn_scarce_blood_types()
 while True:
 
     action = input('Enter a command: ')
