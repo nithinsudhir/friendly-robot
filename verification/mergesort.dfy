@@ -1,4 +1,4 @@
-//Returns true if whole array is sorted
+//Is true if whole array is sorted
 predicate Sorted(a:array<int>)
   reads a;
   requires a != null; 
@@ -6,7 +6,7 @@ predicate Sorted(a:array<int>)
   forall m, n :: 0 <= m < n < a.Length ==> a[m] <= a[n]
 }
   
-//Returns true if array is sorted between lo and hi
+//Is true if array is sorted between lo and hi
 predicate SortedBetween(a:array<int>,lo:int,hi:int)
   reads a;
   requires a != null;
