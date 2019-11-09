@@ -37,6 +37,18 @@ class System:
                     volume += current_volume
         return volume
 
+    def filter_by_attribute(self, attribute, value):
+        deposits = self.deposits
+        filtered = []
+        i = 0
+        while (i < len(deposits)):
+            if (deposits[i][attribute] == value):
+                filtered.append(deposits[i])
+            i = i + 1
+
+        return filtered
+
+
     # def get_occurences(self, blood_type):
     #     count = 0
     #     for item in self.blood_bank:
