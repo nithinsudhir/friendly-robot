@@ -3,32 +3,92 @@ from model.user import User
 from model.administrator import Administrator
 from model.hospital import Hospital
 from model.donor import Donor
+from misc.utility_functions import type_to_int
+import re
 
-print("Welcome to the DafnyDuk Blood Managment System")
+def login(current_user):
+    if current_user == 'A':
+        return Administrator(system)
+    elif current_user == 'H':
+        return Hospital(system)
+    elif current_user == 'D':
+        return Donor(system)
+    else:
+        print('Invalid user. Please try again')
+        current_user = input('Please enter your user type (A/H/D): ')
+        user = login(current_user)
+        return user
 
-print("\nThis system accepts three different types of users:\nA - Administrator\nH - Hospital\nD - Donor")
+def print_instructions():
+    print('This system accepts the following commands:')
+    print('count - count number of blood deposits')
+    print('volume - count total volume of blood deposits')
+    print('help - print all available commands\n\n')
 
-current_user = input("\nPlease enter your user type (A/H/D): ")
+def handle_count():
+    option = input('Enter (A|B|AB|O) to specify type [optional]: ')
+    if not option:
+        print(system.count_deposits())
+    elif re.match(r'^(A|B|AB|O)$', option):
+        blood_type = type_to_int(option)
+        print(system.count_deposits(blood_type))
+    else:
+        print('Unrecognised blood type, please try again.')
+        handle_count()
 
-if current_user == 'A':
-    current_user = Administrator()
-elif current_user == 'H':
-    current_user = Hospital()
-elif current_user == 'D':
-    current_user = Donor()
-else:
-    exit()
+def handle_volume():
+    option = input('Enter (A|B|AB|O) to specify type [optional]: ')
+    if not option:
+        print(system.count_volume())
+    elif re.match(r'^(A|B|AB|O)$', option):
+        blood_type = type_to_int(option)
+        print(system.count_volume(blood_type))
+    else:
+        print('Unrecognised blood type, please try again.')
+        handle_volume()
 
-print(f'You are logged in as a {current_user.get_user_type()}\n')
+def handle_add():
+    pass
 
+def handle_remove():
+    pass
+
+print('Welcome to the DafnyDuk Blood Managment System\n')
+
+print('Initialising system...\n')
 system = System()
+print('System initialised successfully.\n')
+
+print('This system accepts three different types of users:')
+print('A - Administrator')
+print('H - Hospital')
+print('D - Donor\n\n')
+current_user = input('Please enter your user type (A/H/D): ')
+user = login(current_user)
+
+print('Logged in as '+ str(user.get_user_type()))
+
+print_instructions()
 
 while True:
-    action = input("Enter a command:\n")
-    if action == "h":
-        print("\"count\",\tview count of valid blood in bank")
-    elif action == "count":
-        system.count()
+
+    action = input('Enter a command: ')
+
+    if action == 'help':
+        print_instructions()
+    
+    elif action == 'count':
+        handle_count()
+    
+    elif action == 'volume':
+        handle_volume()
+
+    elif action == 'add':
+        handle_count()
+
+    elif action == 'remove':
+        handle_remove()
+    
     else:
-        print("Command not recognised, please try again")
-        print("To view help, enter \"h\"")
+        print('Command not recognised, please try again')
+        continue
