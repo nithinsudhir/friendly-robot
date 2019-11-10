@@ -97,6 +97,18 @@ def handle_request():
     else:
         print('Request rejected.')
 
+def handle_add_donor():
+    if(user.get_user_type() != 'Administrator'):
+            print ("Only Administrators can add donors")
+            return
+    first_name = input("Enter first name: ")
+    last_name = input("Enter last name: ")
+    age = input("Enter age: ")
+    blood_type = type_to_int(input("Enter blood type (A|B|AB|O)[+-]: "))
+    email = input("Enter email: ")
+    allergens = input("Enter allergens: ")
+    user.add_donor(first_name, last_name, age, blood_type, email, allergens)
+
 print('Welcome to the DafnyDuk Blood Managment System\n')
 
 print('Initialising system...\n')
@@ -137,16 +149,7 @@ while True:
         handle_filter()
 
     elif action == 'addDonor':
-        if(user.get_user_type() != 'Administrator'):
-            print ("Only Administrators can add donors")
-            continue
-        first_name = input("Enter first name: ")
-        last_name = input("Enter last name: ")
-        age = input("Enter age: ")
-        blood_type = input("Enter blood type: ")
-        email = input("Enter email: ")
-        allergens = input("Enter allergens: ")
-        user.add_donor(first_name, last_name, age, blood_type, email, allergens)
+        handle_add_donor()
 
     elif action == 'request blood':
         handle_request()
