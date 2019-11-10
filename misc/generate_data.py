@@ -5,10 +5,10 @@ NUM_DEPOSITS = 10
 NUM_DONORS = 10
 NUM_HOSPITALS = 10
 NUM_REQUESTS = 0 # initially there are no requests
-NUM_BLOOD_TYPES = 4
+NUM_BLOOD_TYPES = 8
 BLOOD_TYPES = [i for i in range(NUM_BLOOD_TYPES)]
-MIN_DATE = 0     # 01/01/2019
-MAX_DATE = 1825  # 01/01/2024
+MIN_DATE = 1546261200   # 01/01/2019
+MAX_DATE = 1704027600   # 01/01/2024
 DEPOSIT_AMOUNTS = (250, 500)
 MIN_AGE = 10
 MAX_AGE = 100
@@ -31,7 +31,7 @@ for i in range(NUM_DEPOSITS):
     blood_type = BLOOD_TYPES[donor_id % NUM_BLOOD_TYPES]
     expiry_date = random.randint(MIN_DATE, MAX_DATE)
     amount = random.choice(DEPOSIT_AMOUNTS)
-    text += str(deposit_id) + ',' + str(donor_id) + ',' + str(blood_type) + ',' + str(expiry_date) + ',' + str(expiry_date) + ',' + str(amount) + '\n'
+    text += str(deposit_id) + ',' + str(donor_id) + ',' + str(blood_type) + ',' + str(expiry_date) + ',' + str(amount) + '\n'
  
 deposits_csv.write(text)
 deposits_csv.close()

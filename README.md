@@ -26,4 +26,4 @@
 - run `python run.py` from the root directory to initialise the blood management system i.e. load all the data from `data/.*` into the system and wait for user to enter a command
 
 #### Notes
-- Blood Types: `(A, B, AB, O)` ---> `(0, 1, 2, 3)`
+- Blood Types: `(A+, A-, B+, B-, AB+, AB-, O+, O-)` ---> `(0, 1, 2, 3, 4, 5, 6, 7)`
