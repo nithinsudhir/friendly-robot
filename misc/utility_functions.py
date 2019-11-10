@@ -22,6 +22,14 @@ def attribute_to_int(attribute):
 def date_to_int(date):
     return int(time.mktime(datetime.datetime.strptime(date, '%d/%m/%Y').timetuple()))
 
+def is_expired(expriy_date_int):
+    current_date = datetime.datetime.today().strftime('%d/%m/%Y')
+    current_date_int = date_to_int(current_date)
+    if current_date_int > expriy_date_int:
+        return True
+    else:
+        return False
+
 def display_results(deposits):
     print('\nDeposit ID\tDonor ID\tBlood Type\tExpiry Date\tAmount')
     print('----------------------------------------------------------------------')

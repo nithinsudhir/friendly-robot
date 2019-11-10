@@ -25,6 +25,7 @@ def print_instructions():
     print('volume - count total volume of blood deposits')
     print('add deposit - add blood deposit to system')
     print('remove deposit - remove blood deposit from system')
+    print('request blood - request blood deposit from system')
     print('help - print all available commands')
 
 def handle_count():
@@ -88,7 +89,13 @@ def handle_filter():
         print('Unrecognised blood type, please try again.')
         handle_filter()
     
-    
+def handle_request():
+    blood_type = type_to_int(input('Enter blood type (A|B|AB|O): '))
+    amount = int(input('Enter amount: '))
+    if user.request_blood(blood_type, amount):
+        print('Request accepted.')
+    else:
+        print('Request rejected.')
 
 print('Welcome to the DafnyDuk Blood Managment System\n')
 
@@ -140,6 +147,9 @@ while True:
         email = input("Enter email: ")
         allergens = input("Enter allergens: ")
         user.add_donor(first_name, last_name, age, blood_type, email, allergens)
+
+    elif action == 'request blood':
+        handle_request()
 
     else:
         print('Command not recognised, please try again')

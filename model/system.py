@@ -2,7 +2,8 @@ from model.deposit import Deposit
 from model.donor import Donor
 from model.request import Request
 from misc.read_data import get_deposits, get_donors, get_hospitals, get_requests
-from misc.write_data import write_deposit, delete_deposit
+from misc.write_data import write_deposit, delete_deposit, write_request
+from misc.utility_functions import is_expired
 import os
 
 CURRENT_DIRECTORY = os.getcwd()
@@ -71,10 +72,31 @@ class System:
     def add_deposit(self, donor_id, blood_type, expiry_date, amount):
         deposit_id = len(self.deposits)
         deposit = [deposit_id, donor_id, blood_type, expiry_date, amount]
-        write_deposit(deposit, 'data/deposits.csv')
         self.deposits.append(deposit)
+        write_deposit(deposit, 'data/deposits.csv')
 
     def remove_deposit(self, deposit_id):
         del self.deposits[deposit_id]
         delete_deposit(deposit_id, 'data/deposits.csv')
+
+    def request_blood(self, hospital_id, blood_type, amount):
+        satisfiable_deposit_id = self.get_satisfiable_deposit(blood_type, amount)
+        if satisfiable_deposit_id >= 0:
+            request = [hospital_id, blood_type, amount, 1]
+            self.remove_deposit(satisfiable_deposit_id)
+            self.requests.append(request)
+            write_request(request, 'data/requests.csv')
+            return True
+        else:
+            request = [hospital_id, blood_type, amount, 0]
+            self.requests.append(request)
+            write_request(request, 'data/requests.csv')
+            return False  
+    
+    def get_satisfiable_deposit(self, blood_type, amount):
+        for deposit in self.deposits:
+            if deposit[2] == blood_type and deposit[4] == amount and not is_expired(deposit[3]):
+                return deposit[0]
+        return -1
+
 
