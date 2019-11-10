@@ -99,6 +99,14 @@ def handle_request():
     else:
         print("Invalid blood type. Please try again")
         handle_request()
+
+def handle_request():
+    blood_type = type_to_int(input('Enter blood type (A|B|AB|O)[+-]: '))
+    amount = int(input('Enter amount: '))
+    if user.request_blood(blood_type, amount):
+        print('Request accepted.')
+    else:
+        print('Request rejected.')
     
 logo = """
   _____         __             _____        _    
@@ -110,13 +118,7 @@ logo = """
                           __/ |                  
                          |___/                   
 """
-def handle_request():
-    blood_type = type_to_int(input('Enter blood type (A|B|AB|O)[+-]: '))
-    amount = int(input('Enter amount: '))
-    if user.request_blood(blood_type, amount):
-        print('Request accepted.')
-    else:
-        print('Request rejected.')
+
 
 print('\033[93m'+logo+'\033[0m')
 print('Welcome to the DafnyDuk Blood Managment System\n')
@@ -141,7 +143,7 @@ while True:
     action = input('Enter a command: ')
 
     if action == 'help':
-        print_instructions()
+        user.print_instructions()
     
     elif action == 'count' and type(user) is Administrator:
         handle_count()
@@ -149,19 +151,19 @@ while True:
     elif action == 'volume' and type(user) is Administrator:
         handle_volume()
 
-    elif action == 'add deposit':
+    elif action == 'add deposit' and type(user) is Administrator:
         handle_add_deposit()
 
-    elif action == 'remove deposit':
+    elif action == 'remove deposit' and type(user) is Administrator:
         handle_remove_deposit()
     
     elif action == 'filter' and type(user) is Administrator:
         handle_filter()
 
-    elif action == 'addDonor':
-        if(user.get_user_type() != 'Administrator'):
-            print ("Only Administrators can add donors")
-            continue
+    elif action == 'addDonor' and type(user) is Administrator:
+        # if(user.get_user_type() != 'Administrator'):
+        #     print ("Only Administrators can add donors")
+        #     continue
         first_name = input("Enter first name: ")
         last_name = input("Enter last name: ")
         age = input("Enter age: ")
@@ -170,7 +172,7 @@ while True:
         allergens = input("Enter allergens: ")
         user.add_donor(first_name, last_name, age, blood_type, email, allergens)
 
-    elif action == 'request blood':
+    elif action == 'request' and type(user) is Hospital:
         handle_request()
 
     else:
