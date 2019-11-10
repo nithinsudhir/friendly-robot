@@ -23,36 +23,46 @@ def print_instructions():
     print('This system accepts the following commands:')
     print('count - count number of blood deposits')
     print('volume - count total volume of blood deposits')
-    print('help - print all available commands\n\n')
+    print('add deposit - add blood deposit to system')
+    print('remove deposit - remove blood deposit from system')
+    print('request blood - request blood deposit from system')
+    print('help - print all available commands')
 
 def handle_count():
     filtered = get_filter_input()
     print(len(filtered))
 
 def handle_volume():
-    option = input('Enter (A|B|AB|O) to specify type [optional]: ')
+    option = input('Enter (A|B|AB|O)[+-] to specify type [optional]: ')
     if not option:
         print(system.count_volume())
-    elif re.match(r'^(A|B|AB|O)$', option):
+    elif re.match(r'^(A|B|AB|O)[+-]$', option):
         blood_type = type_to_int(option)
         print(system.count_volume(blood_type))
     else:
         print('Unrecognised blood type, please try again.')
         handle_volume()
 
-def handle_add():
-    pass
+def handle_add_deposit():
+    donor_id = int(input('Enter donor ID: '))
+    blood_type = type_to_int(input('Enter blood type (A|B|AB|O)[+-]: '))
+    expiry_date = date_to_int(input('Enter expiry date (dd/mm/yyyy): '))
+    amount = int(input('Enter amount: '))
+    user.add_deposit(donor_id, blood_type, expiry_date, amount)
+    print('Deposit added successfully')
 
-def handle_remove():
-    pass
+def handle_remove_deposit():
+    deposit_id = int(input('Enter deposit ID: '))
+    user.remove_deposit(deposit_id)
+    print('Deposit removed successfully')
 
 def get_filter_input():
     filter_attribute = input('Enter (Type | Amount) to specify filter attribute: ')
     if re.match(r'^(Type|Amount)$', filter_attribute):
         attribute = attribute_to_int(filter_attribute)
         if (filter_attribute == 'Type'):
-            option = input('Enter (A|B|AB|O) to specify blood type: ')
-            if re.match(r'^(A|B|AB|O)$', option):
+            option = input('Enter (A|B|AB|O)[+-] to specify blood type: ')
+            if re.match(r'^(A|B|AB|O)[+-]$', option):
                 value = type_to_int(option)
                 filtered = system.filter_by_attribute(attribute,value)
                 return filtered
@@ -100,6 +110,13 @@ logo = """
                           __/ |                  
                          |___/                   
 """
+def handle_request():
+    blood_type = type_to_int(input('Enter blood type (A|B|AB|O)[+-]: '))
+    amount = int(input('Enter amount: '))
+    if user.request_blood(blood_type, amount):
+        print('Request accepted.')
+    else:
+        print('Request rejected.')
 
 print('\033[93m'+logo+'\033[0m')
 print('Welcome to the DafnyDuk Blood Managment System\n')
@@ -132,17 +149,30 @@ while True:
     elif action == 'volume' and type(user) is Administrator:
         handle_volume()
 
-    elif action == 'add' and type(user) is Administrator:
-        handle_add()
+    elif action == 'add deposit':
+        handle_add_deposit()
 
-    elif action == 'remove' and type(user) is Administrator:
-        handle_remove()
+    elif action == 'remove deposit':
+        handle_remove_deposit()
     
     elif action == 'filter' and type(user) is Administrator:
         handle_filter()
-    
-    elif action == 'request' and type(user) is Hospital:
+
+    elif action == 'addDonor':
+        if(user.get_user_type() != 'Administrator'):
+            print ("Only Administrators can add donors")
+            continue
+        first_name = input("Enter first name: ")
+        last_name = input("Enter last name: ")
+        age = input("Enter age: ")
+        blood_type = input("Enter blood type: ")
+        email = input("Enter email: ")
+        allergens = input("Enter allergens: ")
+        user.add_donor(first_name, last_name, age, blood_type, email, allergens)
+
+    elif action == 'request blood':
         handle_request()
+
     else:
         print('Command not recognised, please try again')
         continue
