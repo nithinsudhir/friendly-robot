@@ -4,7 +4,6 @@ from model.request import Request
 from misc.read_data import get_deposits, get_donors, get_hospitals, get_requests
 import os
 
-
 CURRENT_DIRECTORY = os.getcwd()
 
 class System:
@@ -58,6 +57,8 @@ class System:
         last_index = donor_list[-1][0]
         donor_id = last_index + 1
         text = ""
+        new_donor = [int(donor_id), first_name, last_name, int(age), int(blood_type), email, allergens]
+        self.donors.append(new_donor)
         try:
             with open(CURRENT_DIRECTORY + '/data/donors.csv', 'a') as donors_csv:
                 text += str(donor_id) + ',' + str(first_name) + ',' + str(last_name) + ',' + str(age) + ',' + str(blood_type) + ',' + str(email) + ',' + str(allergens) + '\n'
@@ -66,6 +67,7 @@ class System:
             print("File error")
             return
 
+    
       
 
     # def get_occurences(self, blood_type):
