@@ -26,15 +26,8 @@ def print_instructions():
     print('help - print all available commands\n\n')
 
 def handle_count():
-    option = input('Enter (A|B|AB|O) to specify type [optional]: ')
-    if not option:
-        print(system.count_deposits())
-    elif re.match(r'^(A|B|AB|O)$', option):
-        blood_type = type_to_int(option)
-        print(system.count_deposits(blood_type))
-    else:
-        print('Unrecognised blood type, please try again.')
-        handle_count()
+    filtered = get_filter_input()
+    print(len(filtered))
 
 def handle_volume():
     option = input('Enter (A|B|AB|O) to specify type [optional]: ')
@@ -53,8 +46,7 @@ def handle_add():
 def handle_remove():
     pass
 
-
-def handle_filter():
+def get_filter_input():
     filter_attribute = input('Enter (Type | Amount) to specify filter attribute: ')
     if re.match(r'^(Type|Amount)$', filter_attribute):
         attribute = attribute_to_int(filter_attribute)
@@ -63,22 +55,26 @@ def handle_filter():
             if re.match(r'^(A|B|AB|O)$', option):
                 value = type_to_int(option)
                 filtered = system.filter_by_attribute(attribute,value)
-                display_results(filtered)
+                return filtered
             else:
                 print('Unrecognised blood type, please try again.')
-                handle_filter()
+                get_filter_input()
         elif (filter_attribute == 'Amount'):
             option = input('Enter amount to filter deposits by: ')
             if re.match(r'^[0-9]+$', option):
                 value = int(option)
                 filtered = system.filter_by_attribute(attribute,value)
-                display_results(filtered)
+                return filtered
             else:
                 print('Unrecognised amount, please enter a number and try again.')
-                handle_filter()
+                get_filter_input()
     else:
         print('Unrecognised blood type, please try again.')
-        handle_filter()
+        get_filter_input()
+
+def handle_filter():
+    filtered = get_filter_input()
+    display_results(filtered)
 
 def handle_request():
     print("Please enter blood type")
