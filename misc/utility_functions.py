@@ -1,4 +1,5 @@
 # Useful functions that do not belong to any particular module
+import misc.sort as sort
 
 import time
 import datetime
@@ -41,6 +42,10 @@ def is_expired(expriy_date_int):
 def display_results(deposits):
     print('\nDeposit ID\tDonor ID\tBlood Type\tExpiry Date\tAmount')
     print('----------------------------------------------------------------------')
+    
+    # Sorts with soonest expiry first
+    deposits = sort.sort_deposits_by(3,deposits)
+
     for i in range(len(deposits)):
         print(deposits[i][0],'\t\t',deposits[i][1],'\t\t',deposits[i][2],'\t\t',deposits[i][3],'\t\t',deposits[i][4],'\t\t')
     print('\n')
