@@ -53,21 +53,7 @@ def handle_add():
 def handle_remove():
     pass
 
-<<<<<<< HEAD
-logo = """
-  _____         __             _____        _    
- |  __ \       / _|           |  __ \      | |   
- | |  | | __ _| |_ _ __  _   _| |  | |_   _| | __
- | |  | |/ _` |  _| '_ \| | | | |  | | | | | |/ /
- | |__| | (_| | | | | | | |_| | |__| | |_| |   < 
- |_____/ \__,_|_| |_| |_|\__, |_____/ \__,_|_|\_\\
-                          __/ |                  
-                         |___/                   
-"""
 
-print('\033[93m'+logo+'\033[0m')
-print("Welcome to the DafnyDuk Blood Managment System")
-=======
 def handle_filter():
     filter_attribute = input('Enter (Type | Amount) to specify filter attribute: ')
     if re.match(r'^(Type|Amount)$', filter_attribute):
@@ -93,11 +79,34 @@ def handle_filter():
     else:
         print('Unrecognised blood type, please try again.')
         handle_filter()
-    
-    
 
+def handle_request():
+    print("Please enter blood type")
+    option = input('Enter (A|B|AB|O)(+-) to specify blood type: ')
+    if re.match(r'^(A|B|AB|O)[+|-]$', option):
+        print("blood type exists")
+        amount = input('Enter amount to request: ')
+        if re.match(r'^[0-9]+$', amount):
+            print("ok")
+        else:
+            print("no")
+    else:
+        print("Invalid blood type. Please try again")
+        handle_request()
+    
+logo = """
+  _____         __             _____        _    
+ |  __ \       / _|           |  __ \      | |   
+ | |  | | __ _| |_ _ __  _   _| |  | |_   _| | __
+ | |  | |/ _` |  _| '_ \| | | | |  | | | | | |/ /
+ | |__| | (_| | | | | | | |_| | |__| | |_| |   < 
+ |_____/ \__,_|_| |_| |_|\__, |_____/ \__,_|_|\_\\
+                          __/ |                  
+                         |___/                   
+"""
+
+print('\033[93m'+logo+'\033[0m')
 print('Welcome to the DafnyDuk Blood Managment System\n')
->>>>>>> master
 
 print('Initialising system...\n')
 system = System()
@@ -121,21 +130,23 @@ while True:
     if action == 'help':
         print_instructions()
     
-    elif action == 'count':
+    elif action == 'count' and type(user) is Administrator:
         handle_count()
     
-    elif action == 'volume':
+    elif action == 'volume' and type(user) is Administrator:
         handle_volume()
 
-    elif action == 'add':
-        handle_count()
+    elif action == 'add' and type(user) is Administrator:
+        handle_add()
 
-    elif action == 'remove':
+    elif action == 'remove' and type(user) is Administrator:
         handle_remove()
     
-    elif action == 'filter':
+    elif action == 'filter' and type(user) is Administrator:
         handle_filter()
-
+    
+    elif action == 'request' and type(user) is Hospital:
+        handle_request()
     else:
         print('Command not recognised, please try again')
         continue

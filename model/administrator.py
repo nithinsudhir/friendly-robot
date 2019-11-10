@@ -15,4 +15,6 @@ class Administrator(User):
         print('This system accepts the following commands:')
         print('count - count number of blood deposits')
         print('volume - count total volume of blood deposits')
+        print('add - add a blood sample to the system')
+        print('remove - remove a blood sample to the system')                
         print('help - print all available commands\n\n')
