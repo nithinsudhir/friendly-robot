@@ -2,6 +2,9 @@ from model.deposit import Deposit
 from model.donor import Donor
 from model.request import Request
 from misc.read_data import get_deposits, get_donors, get_hospitals, get_requests
+import os
+
+CURRENT_DIRECTORY = os.getcwd()
 
 class System:
     def __init__(self):
@@ -48,6 +51,24 @@ class System:
 
         return filtered
 
+    #Adding a new donor record to the csv file
+    def add_donor(self, user,first_name, last_name, age, blood_type, email, allergens):
+        donor_list = get_donors(CURRENT_DIRECTORY + '/data/donors.csv')
+        last_index = donor_list[-1][0]
+        donor_id = last_index + 1
+        text = ""
+        new_donor = [int(donor_id), first_name, last_name, int(age), int(blood_type), email, allergens]
+        self.donors.append(new_donor)
+        try:
+            with open(CURRENT_DIRECTORY + '/data/donors.csv', 'a') as donors_csv:
+                text += str(donor_id) + ',' + str(first_name) + ',' + str(last_name) + ',' + str(age) + ',' + str(blood_type) + ',' + str(email) + ',' + str(allergens) + '\n'
+                donors_csv.write(text)
+        except IOError:
+            print("File error")
+            return
+
+    
+      
 
     # def get_occurences(self, blood_type):
     #     count = 0

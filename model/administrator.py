@@ -10,3 +10,6 @@ class Administrator(User):
 
     def remove_blood_deposit(self, blood_type, is_valid, expiry_date, amount):
         self.system.remove_blood_deposit(self, blood_type, is_valid, expiry_date, amount)
+
+    def add_donor(self, first_name, last_name, age, blood_type, email, allergens):
+        self.system.add_donor(self, first_name, last_name, age, blood_type, email, allergens)

@@ -111,14 +111,26 @@ while True:
     elif action == 'volume':
         handle_volume()
 
-    elif action == 'add':
+    elif action == 'addBlood':
         handle_count()
 
-    elif action == 'remove':
+    elif action == 'removeBlood':
         handle_remove()
     
     elif action == 'filter':
         handle_filter()
+
+    elif action == 'addDonor':
+        if(user.get_user_type() != 'Administrator'):
+            print ("Only Administrators can add donors")
+            continue
+        first_name = input("Enter first name: ")
+        last_name = input("Enter last name: ")
+        age = input("Enter age: ")
+        blood_type = input("Enter blood type: ")
+        email = input("Enter email: ")
+        allergens = input("Enter allergens: ")
+        user.add_donor(first_name, last_name, age, blood_type, email, allergens)
 
     else:
         print('Command not recognised, please try again')
