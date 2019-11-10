@@ -4,14 +4,22 @@ import time
 import datetime
 
 def type_to_int(blood_type):
-    if blood_type == 'A':
+    if blood_type == 'A+':
         return 0
-    elif blood_type == 'B':
+    elif blood_type == 'A-':
         return 1
-    elif blood_type == 'AB':
+    elif blood_type == 'B+':
         return 2
-    elif blood_type == 'O':
+    elif blood_type == 'B-':
         return 3
+    elif blood_type == 'AB+':
+        return 4
+    elif blood_type == 'AB-':
+        return 5
+    elif blood_type == 'O+':
+        return 6
+    elif blood_type == 'O-':
+        return 7
 
 def attribute_to_int(attribute):
     if attribute == 'Type':

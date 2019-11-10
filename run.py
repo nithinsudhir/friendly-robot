@@ -29,10 +29,10 @@ def print_instructions():
     print('help - print all available commands')
 
 def handle_count():
-    option = input('Enter (A|B|AB|O) to specify type [optional]: ')
+    option = input('Enter (A|B|AB|O)[+-] to specify type [optional]: ')
     if not option:
         print(system.count_deposits())
-    elif re.match(r'^(A|B|AB|O)$', option):
+    elif re.match(r'^(A|B|AB|O)[+-]$', option):
         blood_type = type_to_int(option)
         print(system.count_deposits(blood_type))
     else:
@@ -40,10 +40,10 @@ def handle_count():
         handle_count()
 
 def handle_volume():
-    option = input('Enter (A|B|AB|O) to specify type [optional]: ')
+    option = input('Enter (A|B|AB|O)[+-] to specify type [optional]: ')
     if not option:
         print(system.count_volume())
-    elif re.match(r'^(A|B|AB|O)$', option):
+    elif re.match(r'^(A|B|AB|O)[+-]$', option):
         blood_type = type_to_int(option)
         print(system.count_volume(blood_type))
     else:
@@ -52,7 +52,7 @@ def handle_volume():
 
 def handle_add_deposit():
     donor_id = int(input('Enter donor ID: '))
-    blood_type = type_to_int(input('Enter blood type (A|B|AB|O): '))
+    blood_type = type_to_int(input('Enter blood type (A|B|AB|O)[+-]: '))
     expiry_date = date_to_int(input('Enter expiry date (dd/mm/yyyy): '))
     amount = int(input('Enter amount: '))
     user.add_deposit(donor_id, blood_type, expiry_date, amount)
@@ -68,8 +68,8 @@ def handle_filter():
     if re.match(r'^(Type|Amount)$', filter_attribute):
         attribute = attribute_to_int(filter_attribute)
         if (filter_attribute == 'Type'):
-            option = input('Enter (A|B|AB|O) to specify blood type: ')
-            if re.match(r'^(A|B|AB|O)$', option):
+            option = input('Enter (A|B|AB|O)[+-] to specify blood type: ')
+            if re.match(r'^(A|B|AB|O)[+-]$', option):
                 value = type_to_int(option)
                 filtered = system.filter_by_attribute(attribute,value)
                 display_results(filtered)
@@ -90,7 +90,7 @@ def handle_filter():
         handle_filter()
     
 def handle_request():
-    blood_type = type_to_int(input('Enter blood type (A|B|AB|O): '))
+    blood_type = type_to_int(input('Enter blood type (A|B|AB|O)[+-]: '))
     amount = int(input('Enter amount: '))
     if user.request_blood(blood_type, amount):
         print('Request accepted.')
