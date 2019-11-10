@@ -1,17 +1,29 @@
 //Add Donor verification
-predicate isNotIn(a:array<int> , id:int) 
+
+//Predicate to check if id is not present in array a
+predicate isNotIn(a:array<int> , id : int) 
 reads a 
 {
     forall k :: 0<=k<a.Length ==> a[k] != id
 }
 
-method isAdded(a: array<int>, id: int)  returns (res: array<int>)
+
+//This method interprets each donor record as a list with a unique donor_id for each row
+// array 'a' represents a list of donor_id
+// int 'id' represents new donor_id
+
+method addDonor(a: array<int>, id: int)  returns (res: array<int>)
 requires a != null
+//Pre-Conditions:
+//      - Array length has 0 or more elements
+//      - New donor (id) does not already exist in array
 requires a.Length >= 0
 requires isNotIn(a,id)
-ensures forall i:: 0<=i<a.Length && res.Length >= a.Length ==> a[i] == res[i] && res[res.Length-1] == id
-ensures res.Length == a.Length+1
-ensures forall i:: 0<=i<a.Length ==> a[i] == old(a[i])
+//Post-Conditions:
+//      - The last appended value in array is id
+//      - New array length = old (a.Length) + 1
+ensures forall i :: 0<=i<a.Length && res.Length >= a.Length ==> a[i] == res[i] && res[res.Length-1] == id
+ensures res.Length == a.Length + 1
 ensures a.Length == 0 && res.Length == 1 ==> res[0] == id
 {   
     var newArr : array<int> := new int[a.Length+1];
@@ -39,13 +51,13 @@ method Main()
     assert arr[1] == 2;
     assert arr[2] == 3;
     
-    var newArr1 := isAdded(arr,4);
+    var newArr1 := addDonor(arr,4);
     assert newArr1[0] == 1;
     assert newArr1[1] == 2;
     assert newArr1[2] == 3;
     assert newArr1[3] == 4;
 
     var emptyArr : array<int> := new int[0];
-    var newArr2 := isAdded(emptyArr,1);
+    var newArr2 := addDonor(emptyArr,1);
     assert newArr2[0] == 1;  
 }
