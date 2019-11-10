@@ -47,11 +47,18 @@ def handle_volume():
         print('Unrecognised blood type, please try again.')
         handle_volume()
 
-def handle_add():
-    pass
+def handle_add_deposit():
+    donor_id = int(input('Enter donor ID: '))
+    blood_type = type_to_int(input('Enter blood type (A|B|AB|O): '))
+    expiry_date = date_to_int(input('Enter expiry date (dd/mm/yyyy): '))
+    amount = int(input('Enter amount: '))
+    user.add_deposit(donor_id, blood_type, expiry_date, amount)
+    print('Deposit added successfully')
 
-def handle_remove():
-    pass
+def handle_remove_deposit():
+    deposit_id = int(input('Enter deposit ID: '))
+    user.remove_deposit(deposit_id)
+    print('Deposit removed successfully')
 
 def handle_filter():
     filter_attribute = input('Enter (Type | Amount) to specify filter attribute: ')
@@ -111,11 +118,11 @@ while True:
     elif action == 'volume':
         handle_volume()
 
-    elif action == 'addBlood':
-        handle_count()
+    elif action == 'add deposit':
+        handle_add_deposit()
 
-    elif action == 'removeBlood':
-        handle_remove()
+    elif action == 'remove deposit':
+        handle_remove_deposit()
     
     elif action == 'filter':
         handle_filter()

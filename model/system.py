@@ -2,6 +2,7 @@ from model.deposit import Deposit
 from model.donor import Donor
 from model.request import Request
 from misc.read_data import get_deposits, get_donors, get_hospitals, get_requests
+from misc.write_data import write_deposit, delete_deposit
 import os
 
 CURRENT_DIRECTORY = os.getcwd()
@@ -66,54 +67,14 @@ class System:
         except IOError:
             print("File error")
             return
-
     
-      
+    def add_deposit(self, donor_id, blood_type, expiry_date, amount):
+        deposit_id = len(self.deposits)
+        deposit = [deposit_id, donor_id, blood_type, expiry_date, amount]
+        write_deposit(deposit, 'data/deposits.csv')
+        self.deposits.append(deposit)
 
-    # def get_occurences(self, blood_type):
-    #     count = 0
-    #     for item in self.blood_bank:
-    #         if  item.get_blood_type() == blood_type:
-    #             count += 1
-    #     return count
-    
-    # def get_amount_type(self, blood_type):
-    #     amount = 0
-    #     for item in self.blood_bank:
-    #         if  item.get_blood_type() == blood_type:
-    #             amount+=item.get_amount()
-    #     return amount
+    def remove_deposit(self, deposit_id):
+        del self.deposits[deposit_id]
+        delete_deposit(deposit_id, 'data/deposits.csv')
 
-    # propose to move functionality to run.py
-    # def count(self):
-    #     option = input("Enter (A|B|AB|O)+- to specify type [optional]:\n")
-    #     if option == "":
-    #         print(len(self.blood_bank))
-    #     elif re.match(r"^(A|B|AB|O)[+-]$", option):
-    #         count = self.get_occurences(option)
-    #         print(count)
-    #     else:
-    #         stub()
-
-    # propose to move functionality to run.py
-    # def amount(self):
-    #     option = input("Enter (A|B|AB|O)+- to specify type [optional]:\n")
-    #     if option == "":
-    #         amount = {}
-    #         for item in self.blood_bank:
-    #             key = item.get_blood_type()
-    #             if key in amount:
-    #                 amount[key]+=item.get_amount()
-    #             else:
-    #                 amount[key]=item.get_amount()
-
-    #             # amount+=item.get_amount()
-    #         for key,val in amount.items():
-    #             print(key, ":", round(val, 3))
-    #         # print("WARNING: Total valid blood irrespective of type displayed")
-    #     elif re.match(r"^(A|B|AB|O)[+-]$",option):
-    #         count = self.get_amount_type(option)
-    #         print(count)
-    #     else:
-    #         print("The type you have entered is invalid. Please try again")
-    #         self.amount()
