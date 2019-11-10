@@ -23,7 +23,9 @@ def print_instructions():
     print('This system accepts the following commands:')
     print('count - count number of blood deposits')
     print('volume - count total volume of blood deposits')
-    print('help - print all available commands\n\n')
+    print('add deposit - add blood deposit to system')
+    print('remove deposit - remove blood deposit from system')
+    print('help - print all available commands')
 
 def handle_count():
     option = input('Enter (A|B|AB|O) to specify type [optional]: ')
