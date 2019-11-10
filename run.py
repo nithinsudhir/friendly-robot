@@ -3,7 +3,7 @@ from model.user import User
 from model.administrator import Administrator
 from model.hospital import Hospital
 from model.donor import Donor
-from misc.utility_functions import type_to_int
+from misc.utility_functions import *
 import re
 
 def login(current_user):
@@ -53,6 +53,34 @@ def handle_add():
 def handle_remove():
     pass
 
+def handle_filter():
+    filter_attribute = input('Enter (Type | Amount) to specify filter attribute: ')
+    if re.match(r'^(Type|Amount)$', filter_attribute):
+        attribute = attribute_to_int(filter_attribute)
+        if (filter_attribute == 'Type'):
+            option = input('Enter (A|B|AB|O) to specify blood type: ')
+            if re.match(r'^(A|B|AB|O)$', option):
+                value = type_to_int(option)
+                filtered = system.filter_by_attribute(attribute,value)
+                display_results(filtered)
+            else:
+                print('Unrecognised blood type, please try again.')
+                handle_filter()
+        elif (filter_attribute == 'Amount'):
+            option = input('Enter amount to filter deposits by: ')
+            if re.match(r'^[0-9]+$', option):
+                value = int(option)
+                filtered = system.filter_by_attribute(attribute,value)
+                display_results(filtered)
+            else:
+                print('Unrecognised amount, please enter a number and try again.')
+                handle_filter()
+    else:
+        print('Unrecognised blood type, please try again.')
+        handle_filter()
+    
+    
+
 print('Welcome to the DafnyDuk Blood Managment System\n')
 
 print('Initialising system...\n')
@@ -89,6 +117,9 @@ while True:
     elif action == 'remove':
         handle_remove()
     
+    elif action == 'filter':
+        handle_filter()
+
     else:
         print('Command not recognised, please try again')
         continue
