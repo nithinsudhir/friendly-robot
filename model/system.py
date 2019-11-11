@@ -2,7 +2,7 @@ from model.deposit import Deposit
 from model.donor import Donor
 from model.request import Request
 from misc.read_data import get_deposits, get_donors, get_hospitals, get_requests
-from misc.write_data import write_deposit, delete_deposit, write_request
+from misc.write_data import write_deposit, delete_deposit, write_request, write_donor
 from misc.utility_functions import is_expired
 import os
 
@@ -53,21 +53,11 @@ class System:
 
         return filtered
 
-    #Adding a new donor record to the csv file
-    def add_donor(self, user,first_name, last_name, age, blood_type, email, allergens):
-        donor_list = get_donors(CURRENT_DIRECTORY + '/data/donors.csv')
-        last_index = donor_list[-1][0]
-        donor_id = last_index + 1
-        text = ""
-        new_donor = [int(donor_id), first_name, last_name, int(age), int(blood_type), email, allergens]
-        self.donors.append(new_donor)
-        try:
-            with open(CURRENT_DIRECTORY + '/data/donors.csv', 'a') as donors_csv:
-                text += str(donor_id) + ',' + str(first_name) + ',' + str(last_name) + ',' + str(age) + ',' + str(blood_type) + ',' + str(email) + ',' + str(allergens) + '\n'
-                donors_csv.write(text)
-        except IOError:
-            print("File error")
-            return
+    def add_donor(self, user, first_name, last_name, age, blood_type, email, allergens):
+        donor_id = len(self.donors)
+        donor = [int(donor_id), first_name, last_name, int(age), int(blood_type), email, allergens]
+        self.donors.append(donor)
+        write_donor(donor, 'data/donors.csv')
     
     def add_deposit(self, donor_id, blood_type, expiry_date, amount):
         deposit_id = len(self.deposits)

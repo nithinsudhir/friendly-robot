@@ -18,3 +18,8 @@ def write_request(request, requests_path):
     request_row = ''.join(str(i) + ', ' for i in request).strip(', ') + '\n'
     with open(requests_path, 'a') as requests_csv:
         requests_csv.write(request_row)
+
+def write_donor(request, request_path):
+    request_row = ''.join(str(i) + ', ' for i in request).strip(', ') + '\n'
+    with open(request_path, 'a') as requests_csv:
+        requests_csv.write(request_row)

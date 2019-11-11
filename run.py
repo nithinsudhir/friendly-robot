@@ -148,7 +148,7 @@ while True:
     elif action == 'filter':
         handle_filter()
 
-    elif action == 'addDonor':
+    elif action == 'add donor':
         handle_add_donor()
 
     elif action == 'request blood':
