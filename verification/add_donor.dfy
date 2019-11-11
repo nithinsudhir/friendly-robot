@@ -1,63 +1,55 @@
-//Add Donor verification
-
-//Predicate to check if id is not present in array a
-predicate isNotIn(a:array<int> , id : int) 
-reads a 
-{
-    forall k :: 0<=k<a.Length ==> a[k] != id
-}
-
-
-//This method interprets each donor record as a list with a unique donor_id for each row
-// array 'a' represents a list of donor_id
-// int 'id' represents new donor_id
-
-method addDonor(a: array<int>, id: int)  returns (res: array<int>)
-requires a != null
-//Pre-Conditions:
-//      - Array length has 0 or more elements
-//      - New donor (id) does not already exist in array
-requires a.Length >= 0
-requires isNotIn(a,id)
-//Post-Conditions:
-//      - The last appended value in array is id
-//      - New array length = old (a.Length) + 1
-ensures forall i :: 0<=i<a.Length && res.Length >= a.Length ==> a[i] == res[i] && res[res.Length-1] == id
-ensures res.Length == a.Length + 1
-ensures a.Length == 0 && res.Length == 1 ==> res[0] == id
-{   
-    var newArr : array<int> := new int[a.Length+1];
-
-    if(a.Length == 0)
-    {   
-        newArr[0] := id;
-        res := newArr;
-    }
-    else{
-        forall (i | 0<=i<a.Length){
-            newArr[i]:=a[i];
-        }
-        newArr[newArr.Length-1] := id;
-        res := newArr;
-    }
-   
-}
 
 method Main()
 {
-    var arr: array<int>:= new int[3];
-    arr[0],arr[1], arr[2] := 1,2,3;
-    assert arr[0] == 1;
-    assert arr[1] == 2;
-    assert arr[2] == 3;
+    var a1: array<int> := new int[7];
+    a1[0], a1[1], a1[2], a1[3], a1[4], a1[5], a1[6] := 0, 10, 20, 30, 40, 50, 60;
+    var a2: array<int> := new int[7];
+    a2[0], a2[1], a2[2], a2[3], a2[4], a2[5], a2[6] := 1, 11, 23, 31, 41, 51, 61;
+    var a3: array<int> := new int[7];
+    a3[0], a3[1], a3[2], a3[3], a3[4], a3[5], a3[6] := 2, 11, 22, 32, 42, 52, 62;
     
-    var newArr1 := addDonor(arr,4);
-    assert newArr1[0] == 1;
-    assert newArr1[1] == 2;
-    assert newArr1[2] == 3;
-    assert newArr1[3] == 4;
+    var donors: array<array> := new array[4];
+    donors[0], donors[1], donors[2] := a1, a2, a3;
 
-    var emptyArr : array<int> := new int[0];
-    var newArr2 := addDonor(emptyArr,1);
-    assert newArr2[0] == 1;  
+    var a4: array<int> := new int[7];
+    a4[0], a4[1], a4[2], a4[3], a4[4], a4[5], a4[6] := 3, 11, 23, 33, 43, 53, 63;
+
+    var s: seq<array<int>> := addDonor(donors, a4);
+
+    var j : int := 0;
+    while (j < |s|) {
+    var k : int := 0;
+        while (k < s[j].Length) {
+        print s[j][k];
+        print ' ';
+        k := k + 1;
+    }
+    print '\n';
+    j := j + 1;
+  }
+
 }
+
+//This method interprets donor records as an array of arrays 'a'
+//Array l is the new donor record to be added to a
+method addDonor(a: array<array<int>>, l : array<int>)  returns (res: seq <array<int>>)
+
+requires a != null
+requires a.Length >= 0
+requires forall r :: 0 <= r < a.Length ==> a[r] != l 
+requires l.Length == 7
+
+ensures forall r : int:: (0 <= r < a.Length ==> (a[r] in res && l in res))
+{   
+    var i := 0;
+    while(i < a.Length)
+    invariant 0 <= i <= a.Length 
+    invariant forall k : int :: (0 <= k < i ==> a[k] in res)
+    {
+        res := res + [a[i]];
+        i := i + 1;
+    }
+    res := res + [l];   
+   
+}
+
