@@ -54,7 +54,7 @@ class System:
         return filtered
 
     def get_scarce_blood_types(self, limit):
-        blood_types = [0,1,2,3]
+        blood_types = [0,1,2,3,4,5,6,7]
         # First create array of tuples [blood_type, volume]
         volumes = []
         for blood_type in blood_types:

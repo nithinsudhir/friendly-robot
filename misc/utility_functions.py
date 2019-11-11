@@ -22,6 +22,24 @@ def type_to_int(blood_type):
     elif blood_type == 'O-':
         return 7
 
+def int_to_blood_type(blood_type):
+    if blood_type == 0:
+        return 'A+'
+    elif blood_type == 1:
+        return 'A-'
+    elif blood_type == 2:
+        return 'B+'
+    elif blood_type == 3:
+        return 'B-'
+    elif blood_type == 4:
+        return 'AB+'
+    elif blood_type == 5:
+        return 'AB-'
+    elif blood_type == 6:
+        return 'O+'
+    elif blood_type == 7:
+        return 'O-'
+
 def attribute_to_int(attribute):
     if attribute == 'Type':
         return 2
