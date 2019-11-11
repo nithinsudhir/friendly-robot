@@ -13,3 +13,6 @@ class Administrator(User):
 
     def add_donor(self, first_name, last_name, age, blood_type, email, allergens):
         self.system.add_donor(self, first_name, last_name, age, blood_type, email, allergens)
+
+    def remove_donor(self, donor_id):
+        self.system.remove_donor(donor_id)

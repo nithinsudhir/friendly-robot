@@ -2,7 +2,7 @@ from model.deposit import Deposit
 from model.donor import Donor
 from model.request import Request
 from misc.read_data import get_deposits, get_donors, get_hospitals, get_requests
-from misc.write_data import write_deposit, delete_deposit, write_request, write_donor
+from misc.write_data import write_deposit, delete_deposit, write_request, write_donor, delete_donor
 from misc.utility_functions import is_expired
 import os
 
@@ -54,11 +54,15 @@ class System:
         return filtered
 
     def add_donor(self, user, first_name, last_name, age, blood_type, email, allergens):
-        donor_id = len(self.donors)
+        donor_id = len(self.donors) + 1
         donor = [int(donor_id), first_name, last_name, int(age), int(blood_type), email, allergens]
         self.donors.append(donor)
         write_donor(donor, 'data/donors.csv')
     
+    def remove_donor(self, donor_id):
+        del self.donors[donor_id]
+        delete_donor(donor_id, 'data/donors.csv')
+
     def add_deposit(self, donor_id, blood_type, expiry_date, amount):
         deposit_id = len(self.deposits)
         deposit = [deposit_id, donor_id, blood_type, expiry_date, amount]

@@ -99,8 +99,8 @@ def handle_request():
 
 def handle_add_donor():
     if(user.get_user_type() != 'Administrator'):
-            print ("Only Administrators can add donors")
-            return
+        print ("Only Administrators can add donors")
+        return
     first_name = input("Enter first name: ")
     last_name = input("Enter last name: ")
     age = input("Enter age: ")
@@ -108,6 +108,15 @@ def handle_add_donor():
     email = input("Enter email: ")
     allergens = input("Enter allergens: ")
     user.add_donor(first_name, last_name, age, blood_type, email, allergens)
+    print("Donor added succesfully")
+
+def handle_remove_donor():
+    if(user.get_user_type() != 'Administrator'):
+        print ("Only Administrators can add donors")
+        return
+    donor_id = int(input('Enter donor ID: '))
+    user.remove_donor(donor_id)
+    print('Donor removed successfully')
 
 print('Welcome to the DafnyDuk Blood Managment System\n')
 
@@ -150,6 +159,9 @@ while True:
 
     elif action == 'add donor':
         handle_add_donor()
+    
+    elif action == 'remove donor':
+        handle_remove_donor()
 
     elif action == 'request blood':
         handle_request()
