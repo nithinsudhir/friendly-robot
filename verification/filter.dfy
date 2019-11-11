@@ -32,18 +32,23 @@ method filter(a:array<array<int>>, attribute: int, value: int) returns (filtered
   //    - Array1 (a) has at least 1 entry
   //    - Every blood deposit (Array2) has length 5
   //    - The attribute index falls within the bounds of the smaller array
+  requires a != null
   requires a.Length > 0;
+  requires forall k :: 0 <= k < a.Length ==> a[k] != null;
   requires forall k :: 0 <= k < a.Length ==> a[k].Length == 5;
   requires 0 <= attribute < 5;
 
   // Post-Condition: 
   //    - Every entry that matches the given value at the given attribute has its index recorded in 'indexes'
   ensures forall k: int :: (0 <= k < a.Length ==> ((a[k][attribute] == value) ==> a[k] in filtered));
+  ensures forall k: int :: (0 <= k < |filtered| ==> (filtered[k] != null));
 {
   var i : int := 0;
+  filtered := [];
   while (i < a.Length)
     invariant 0 <= i <= a.Length;
     invariant forall k: int :: (0 <= k < i ==> ((a[k][attribute] == value) ==> a[k] in filtered));
+    invariant forall k: int :: (0 <= k < |filtered| ==> (filtered[k] != null));
   {
     if (a[i][attribute] == value) 
     { 
