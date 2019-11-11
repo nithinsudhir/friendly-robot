@@ -26,6 +26,8 @@ def print_instructions():
     print('add deposit - add blood deposit to system')
     print('remove deposit - remove blood deposit from system')
     print('request blood - request blood deposit from system')
+    print('add donor - add donor record to the system')
+    print('remove donor - remove donor record from system')
     print('help - print all available commands')
 
 def handle_count():
