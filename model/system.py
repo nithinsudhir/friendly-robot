@@ -53,6 +53,29 @@ class System:
 
         return filtered
 
+    def get_scarce_blood_types(self, limit):
+        blood_types = [0,1,2,3,4,5,6,7]
+        # First create array of tuples [blood_type, volume]
+        volumes = []
+        for blood_type in blood_types:
+            volume = self.count_volume(blood_type)
+            volumes.append([blood_type,volume])
+        scarce = []
+        i = 0
+        while (i < len(volumes)):
+            if (volumes[i][1] <= limit):
+                scarce.append(volumes[i])
+            i = i + 1
+
+        return scarce
+
+
+    # def get_occurences(self, blood_type):
+    #     count = 0
+    #     for item in self.blood_bank:
+    #         if  item.get_blood_type() == blood_type:
+    #             count += 1
+    #     return count
     def add_donor(self, user, first_name, last_name, age, blood_type, email, allergens):
         donor_id = len(self.donors) + 1
         donor = [int(donor_id), first_name, last_name, int(age), int(blood_type), email, allergens]

@@ -120,6 +120,12 @@ def handle_remove_donor():
     user.remove_donor(donor_id)
     print('Donor removed successfully')
 
+def warn_scarce_blood_types():
+    blood_total_lower_limit = 500
+    scarce = system.get_scarce_blood_types(blood_total_lower_limit)
+    if (scarce != []):
+        print_scarce_blood(scarce)
+
 print('Welcome to the DafnyDuk Blood Managment System\n')
 
 print('Initialising system...\n')
@@ -136,7 +142,7 @@ user = login(current_user)
 print('Logged in as '+ str(user.get_user_type()))
 
 print_instructions()
-
+warn_scarce_blood_types()
 while True:
 
     action = input('Enter a command: ')

@@ -22,6 +22,24 @@ def type_to_int(blood_type):
     elif blood_type == 'O-':
         return 7
 
+def int_to_blood_type(blood_type):
+    if blood_type == 0:
+        return 'A+'
+    elif blood_type == 1:
+        return 'A-'
+    elif blood_type == 2:
+        return 'B+'
+    elif blood_type == 3:
+        return 'B-'
+    elif blood_type == 4:
+        return 'AB+'
+    elif blood_type == 5:
+        return 'AB-'
+    elif blood_type == 6:
+        return 'O+'
+    elif blood_type == 7:
+        return 'O-'
+
 def attribute_to_int(attribute):
     if attribute == 'Type':
         return 2
@@ -49,3 +67,12 @@ def display_results(deposits):
     for i in range(len(deposits)):
         print(deposits[i][0],'\t\t',deposits[i][1],'\t\t',deposits[i][2],'\t\t',deposits[i][3],'\t\t',deposits[i][4],'\t\t')
     print('\n')
+
+def print_scarce_blood(volumes):
+    if (volumes != []):
+        print("\nWARNING: Scarce blood types listed below:\n")
+        print('Blood Type\tAmount')
+        print('---------------------------------')
+        for i in range(len(volumes)):
+            print(int_to_blood_type(volumes[i][0]),'\t\t',volumes[i][1])
+        print('\n')
