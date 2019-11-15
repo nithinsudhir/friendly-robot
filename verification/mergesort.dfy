@@ -1,73 +1,139 @@
-//Returns true if whole array is sorted
-predicate Sorted(attribute:int,a:array<array<int>>)
+class Blood {
+  var depositId :int;
+  var donorId :int;
+  var bloodType :int;
+  var expiry :int;
+  var amount :int;
+
+  predicate Valid()
+  reads this;
+  {
+    depositId > 0 && donorId > 0 && bloodType > 0 && expiry > 0 && amount > 0
+  }
+
+  constructor(deId:int, doId:int, bt:int, ex:int, am:int) modifies this
+  requires deId > 0 && doId > 0 && bt > 0 && ex > 0 && am > 0;
+  ensures Valid();
+  {
+    depositId := deId;
+    donorId := doId;
+    bloodType := bt;
+    expiry := ex;
+    amount := am;
+  }
+}
+
+function method bloodGreaterThan(attribute:int, blood1:Blood, blood2:Blood) : bool
+reads blood1;
+reads blood2;
+requires 1 <= attribute <= 5;
+requires blood1 != null && blood2 != null;
+{
+  if attribute == 1 then (if blood1.depositId >= blood2.depositId then true else false) else if attribute == 2 then (if blood1.donorId >= blood2.donorId then true else false) else if attribute == 3 then (if blood1.bloodType >= blood2.bloodType then true else false) else if attribute == 4 then (if blood1.expiry >= blood2.expiry then true else false) else if attribute == 5 then (if blood1.amount >= blood2.amount then true else false) else false
+}
+
+method greaterThan(attribute:int, blood1:Blood, blood2:Blood) returns (res:bool)
+requires 1 <= attribute <= 5
+requires blood1 != null && blood2 != null
+ensures res == bloodGreaterThan(attribute,blood1,blood2)
+{
+  if attribute == 1 {
+    if (blood1.depositId >= blood2.depositId) {
+      res := true;
+    } else {
+      res := false;
+    }
+  } else if attribute == 2 {
+    if (blood1.donorId >= blood2.donorId) {
+      res := true;
+    } else {
+      res := false;
+    }
+  } else if attribute == 3 {
+    if (blood1.bloodType >= blood2.bloodType) {
+      res := true;
+    } else {
+      res := false;
+    }
+  } else if attribute == 4 {
+    if (blood1.expiry >= blood2.expiry) {
+      res := true;
+    } else {
+      res := false;
+    }
+  } else if attribute == 5 {
+    if (blood1.amount >= blood2.amount) {
+      res := true;
+    } else {
+      res := false;
+    }
+  }
+}
+
+
+//Is true if whole array is sorted
+predicate Sorted(attribute:int,a:array<Blood>)
   reads a;
   reads set b | 0 <= b < a.Length :: a[b];
 
-  requires a != null;
+  requires a != null; 
   requires forall b:: 0 <= b < a.Length ==> a[b] != null;
-  requires forall b:: 0 <= b < a.Length ==> a[b].Length == 5;
-  requires 0 <= attribute < 5;
+  requires 1<=attribute<=5;
 {
-  forall m, n :: 0 <= m < n < a.Length ==> a[m][attribute] <= a[n][attribute]
+  forall m, n :: 0 <= m < n < a.Length ==> bloodGreaterThan(attribute,a[n],a[m])
 }
   
-//Returns true if array is sorted between lo and hi
-predicate SortedBetween(attribute:int,a:array<array<int>>,lo:int,hi:int)
+//Is true if array is sorted between lo and hi
+predicate SortedBetween(attribute:int,a:array<Blood>,lo:int,hi:int)
   reads a;
   reads set b | 0 <= b < a.Length :: a[b];
-
 
   requires a != null;
   requires 0 <= lo <= hi < a.Length;
-
-  requires forall b:: 0 <= b < a.Length ==> a[b] != null;
-  requires forall b:: 0 <= b < a.Length ==> a[b].Length == 5;
-  requires 0 <= attribute < 5;
+  requires 1<=attribute<=5;
+  requires forall b:: 0 <= b <= hi ==> a[b] != null;
 
 {
-  forall m, n :: lo <= m < n <= hi ==> a[m][attribute] <= a[n][attribute]
+  forall m, n :: lo <= m < n <= hi ==> bloodGreaterThan(attribute,a[n],a[m])
 }
 
 //MergeSort function
-method MergeSort(attribute:int,u:array<array<int>>) returns (a:array<array<int>>)
-  modifies u;
-  modifies set b | 0 <= b < u.Length :: u[b];
-
+method MergeSort(attribute:int,u:array<Blood>) returns (a:array<Blood>)
   requires u != null && u.Length > 0;
+  requires 1<=attribute<=5;
   requires forall b:: 0 <= b < u.Length ==> u[b] != null;
-  requires forall b:: 0 <= b < u.Length ==> u[b].Length == 5;
-  requires 0 <= attribute < 5;
 
 
   ensures a != null;
-  ensures forall b:: 0 <= b < a.Length ==> a[b] != null;
-  ensures forall b:: 0 <= b < a.Length ==> a[b].Length == 5;
   ensures a.Length == u.Length;
+  ensures forall b:: 0 <= b < a.Length ==> a[b] != null;
+
   ensures Sorted(attribute,a);
+
+
 {
   a := RecursiveMerge(attribute,u,0,u.Length-1);
   return;
 }
 
 //Is called recursively to Mergesort, with the lo and hi index to indicate what section is being sorted
-method RecursiveMerge(attribute:int,u:array<array<int>>,lo:int,hi:int) returns (a:array<array<int>>)
-  modifies u;
-  modifies set b | 0 <= b < u.Length :: u[b];
-
+method RecursiveMerge(attribute:int,u:array<Blood>,lo:int,hi:int) returns (a:array<Blood>)
   requires u != null && u.Length > 0;
   requires 0 <= lo <= hi < u.Length;
+  requires 1<=attribute<=5;
   requires forall b:: 0 <= b < u.Length ==> u[b] != null;
-  requires forall b:: 0 <= b < u.Length ==>  u[b].Length == 5;
-  requires 0 <= attribute < 5;
+
 
   decreases hi-lo;
   ensures a != null;
   ensures a.Length == u.Length;
+  ensures forall b:: 0 <= b < a.Length ==> a[b] != null;
+
   ensures SortedBetween(attribute,a,lo,hi);
   ensures forall i:: 0 <= i < lo ==> a[i] == u[i]; // havent changed values that aren't being worked on
   ensures forall i:: hi < i < a.Length ==> a[i] == u[i]; // havent changed values that aren't being worked on
 {
-  a := new array[u.Length];
+  a := new Blood[u.Length];
   forall (k | 0 <= k < u.Length)  {a[k] := u[k];}
   
   if (lo >= hi)
@@ -85,21 +151,25 @@ method RecursiveMerge(attribute:int,u:array<array<int>>,lo:int,hi:int) returns (
 }
 
 //Merges two arrays as necessary
-method Merge(attribute:int, u:array<array<int>>, lo:int, mid:int, hi:int) returns (a:array<array<int>>)
-modifies u;
-modifies set b | 0 <= b < u.Length :: u[b];
+method Merge(attribute:int,u:array<Blood>, lo:int, mid:int, hi:int) returns (a:array<Blood>)
+requires 1<=attribute<=5;
 
 requires u != null && u.Length > 0;
 requires 0 <= lo <= mid <= hi < u.Length;
+requires forall b:: 0 <= b < u.Length ==> u[b] != null;
+
 requires SortedBetween(attribute,u,lo,mid);
 requires hi <= mid || SortedBetween(attribute,u,mid+1,hi);
 
+
 requires forall b:: 0 <= b < u.Length ==> u[b] != null;
-requires forall b:: 0 <= b < u.Length ==> u[b].Length == 5;
-requires 0 <= attribute < 5;
+
+
 
 ensures a != null;
 ensures a.Length == u.Length;
+ensures forall b:: 0 <= b < a.Length ==> a[b] != null;
+
 ensures SortedBetween(attribute,a,lo,hi);
 
 ensures forall i:: 0 <= i < lo ==> a[i] == u[i] // havent changed values that aren't being worked on
@@ -107,10 +177,9 @@ ensures forall i:: hi < i < u.Length ==> a[i] == u[i] // havent changed values t
 
 decreases hi-lo; //array becomes smaller
 {
-  a := new array[u.Length];
+  a := new Blood[u.Length];
   forall (k | 0 <= k < u.Length)  {a[k] := u[k];}
-  var tmp : array<array> := new array[hi-lo+1];
-  
+  var tmp := new Blood[hi-lo+1];
   var x:int := lo;
   var y:int := mid + 1;
   var i:int := 0;
@@ -121,36 +190,31 @@ decreases hi-lo; //array becomes smaller
     invariant lo <= x <= mid+1; 
     invariant mid+1 <= y <= hi+1; 
     
-    invariant (x-lo) + (y-(mid+1)) == i; // i is in right place
-    invariant i == 0 || SortedBetween(attribute,tmp,0,i-1); // tmp is always sorted
+    invariant (x-lo) + (y-(mid+1)) == i; // i aligns properly.
 
-    invariant forall b:: 0 <= b <= i ==> tmp[b] != null;
-    invariant forall b:: 0 <= b <= i ==> tmp[b].Length == 5;
-    invariant forall q, r:: 0 <= q < i && (x <= r <= mid || y <= r <= hi) ==> tmp[q][attribute] <= a[r][attribute]; //both arrays have been merged correctly
+    invariant forall b:: 0 <= b <= i-1 ==> tmp[b] != null;
+
+    invariant i == 0 || SortedBetween(attribute,tmp,0,i-1); // tmp is always sorted
+    invariant forall q, r:: 0 <= q < i && (x <= r <= mid || y <= r <= hi) ==> bloodGreaterThan(attribute,a[r],a[q]); //both arrays have been merged correctly
   {
     if (x > mid) //right array is completely merged
     {
-      tmp[i] := new int[a[y].Length];
-      forall (k | 0 <= k < a[y].Length)  {tmp[i][k] := a[y][k];}
+      tmp[i] := a[y];
       y := y + 1;
     }
     else if (y > hi) //left array is completely merged
     {
-      tmp[i] := new int[a[x].Length];
-      forall (k | 0 <= k < a[x].Length)  {tmp[i][k] := a[x][k];}
+      tmp[i] := a[x];
       x := x + 1;
     }
-    else if (a[x][attribute] <= a[y][attribute]) //take from right array
+    else if (bloodGreaterThan(attribute,a[y],a[x])) //take from right array
     {
-      tmp[i] := new int[a[x].Length];
-      forall (k | 0 <= k < a[x].Length)  {tmp[i][k] := a[x][k];}
+      tmp[i] := a[x];
       x := x + 1;
     }
     else
     {
-      tmp[i] := new int[a[y].Length];
-      forall (k | 0 <= k < a[y].Length)  {tmp[i][k] := a[y][k];}
-      //take from left array
+      tmp[i] := a[y]; //take from left array
       y := y + 1;
     }
     i := i + 1;
@@ -161,9 +225,11 @@ decreases hi-lo; //array becomes smaller
     invariant 0 <= i <= hi-lo+1;
     invariant forall q  :: (0 <= q < lo || hi < q < u.Length) ==> a[q] == u[q]; // array hasn't changed
     
-    invariant forall q:: forall r:: 0 <= q < r < hi-lo+1 ==>  tmp[q][attribute] <= tmp[r][attribute]; // tmp is sorted (ie hasnt changed)
+    invariant forall b:: 0 <= b < hi-lo+1 ==> tmp[b] != null;
+
+    invariant forall q:: forall r:: 0 <= q < r < hi-lo+1 ==>  bloodGreaterThan(attribute,tmp[r],tmp[q]); // tmp is sorted (ie hasnt changed)
     invariant forall q:: lo <= q < lo+i ==> tmp[q-lo] == a[q]; //tmp is copied to a
-    invariant forall q:: forall r:: lo <= q < r < lo+i ==> a[q][attribute] <= a[r][attribute]; // a is sorted
+    invariant forall q:: forall r:: lo <= q < r < lo+i ==> bloodGreaterThan(attribute,a[r],a[q]); // a is sorted
 
   {
     //copies array to tmp
@@ -175,21 +241,18 @@ decreases hi-lo; //array becomes smaller
 //Main tests functionality
 method Main() 
 {
-  var a1: array<int> := new int[5];
-  a1[0], a1[1], a1[2], a1[3], a1[4] := 0, 10, 20, 30, 40;
-  var a2: array<int> := new int[5];
-  a2[0], a2[1], a2[2], a2[3], a2[4] := 1, 11, 23, 31, 41;
-  var a3: array<int> := new int[5];
-  a3[0], a3[1], a3[2], a3[3], a3[4] := 2, 11, 22, 32, 42;
-  var a4: array<int> := new int[5];
-  a4[0], a4[1], a4[2], a4[3], a4[4] := 3, 11, 23, 33, 43;
-  var deposits: array<array> := new array[4];
-  deposits[0], deposits[1], deposits[2], deposits[3] := a1, a2, a3, a4;
+  var arr : array<Blood> := new Blood[5];
+  var b1 := new Blood(5,5,6,3,4);
+  var b2 := new Blood(2,3,7,3,3);
+  var b3 := new Blood(5,5,1,3,5);
+  var b4 := new Blood(53,6,3,3,1);
+  var b5 := new Blood(3,5,7,5,6);
 
-  var arr: array<array<int>> := MergeSort(2,deposits);
-
-  print arr;
-
-  print arr[..];
-
+  arr[0],arr[1],arr[2],arr[3],arr[4] := b1,b2,b3,b4,b5;
+  assert arr[0] == b1;
+  assert arr[1] == b2;
+  assert arr[2] == b3;
+  assert arr[3] == b4;
+  assert arr[4] == b5;
+  arr := MergeSort(2,arr);
 }
