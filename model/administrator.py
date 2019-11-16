@@ -15,6 +15,7 @@ class Administrator(User):
         print('add - add a blood sample to the system')
         print('remove - remove a blood sample to the system')                
         print('help - print all available commands\n\n')
+        
     def remove_deposit(self, deposit_id):
         self.system.remove_deposit(deposit_id)
 

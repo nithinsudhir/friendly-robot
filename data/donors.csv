@@ -6,3 +6,4 @@ Donor ID,First Name,Last Name, Age, Blood Type, Email Address, Allergens
 7,Sam,Johnson,40,7,SamJohnson@gmail.com,Cheese
 8,Bob,Williams,32,0,BobWilliams@gmail.com,Penicillin
 9,Bob,Jones,26,1,BobJones@gmail.com,Cheese
+8, Ellen, D, 56, 6, ellen@gmail.com, N/A

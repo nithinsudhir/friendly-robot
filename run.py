@@ -109,20 +109,23 @@ def handle_request():
         print('Request accepted.')
     else:
         print('Request rejected.')
-<<<<<<< HEAD
 
-def handle_add_donor():
-    if(user.get_user_type() != 'Administrator'):
-        print ("Only Administrators can add donors")
-        return
-    first_name = input("Enter first name: ")
-    last_name = input("Enter last name: ")
-    age = input("Enter age: ")
-    blood_type = type_to_int(input("Enter blood type (A|B|AB|O)[+-]: "))
-    email = input("Enter email: ")
-    allergens = input("Enter allergens: ")
-    user.add_donor(first_name, last_name, age, blood_type, email, allergens)
-    print("Donor added succesfully")
+def handle_register():
+    try:
+        first_name = input("Enter first name: ")
+        last_name = input("Enter last name: ")
+        age = int(input("Enter age: "))
+        blood_type = type_to_int(input("Enter blood type (A|B|AB|O)[+-]: "))
+        email = input("Enter email: ")
+        allergens = input("Enter allergens (N/A if not applicable): ")
+        admin = Administrator(system)
+        admin.add_donor(first_name, last_name, age, blood_type, email, allergens)
+        print("{} is registered successfuly".format(first_name))
+    except ValueError:
+        print("Invalid input. Please enter an integer for age")
+    except TypeError:
+        print("Invalid input. Please enter a valid blood type (A|B|AB|O)[+-]")
+
 
 def handle_remove_donor():
     if(user.get_user_type() != 'Administrator'):
@@ -138,7 +141,6 @@ def warn_scarce_blood_types():
     if (scarce != []):
         print_scarce_blood(scarce)
 
-=======
     
 logo = """
   _____         __             _____        _    
@@ -153,7 +155,6 @@ logo = """
 
 
 print('\033[93m'+logo+'\033[0m')
->>>>>>> 48feec2d3a211f90e3767b5ead4ab453e2662986
 print('Welcome to the DafnyDuk Blood Managment System\n')
 
 print('Initialising system...\n')
@@ -169,13 +170,10 @@ user = login(current_user)
 
 print('Logged in as '+ str(user.get_user_type()))
 
-<<<<<<< HEAD
-print_instructions()
-warn_scarce_blood_types()
-=======
-user.print_instructions()
 
->>>>>>> 48feec2d3a211f90e3767b5ead4ab453e2662986
+user.print_instructions()
+warn_scarce_blood_types()
+
 while True:
 
     action = input('Enter a command: ')
@@ -197,29 +195,15 @@ while True:
     
     elif action == 'filter' and type(user) is Administrator:
         handle_filter()
-
-<<<<<<< HEAD
-    elif action == 'add donor':
-        handle_add_donor()
     
     elif action == 'remove donor':
         handle_remove_donor()
-=======
-    elif action == 'addDonor' and type(user) is Administrator:
-        # if(user.get_user_type() != 'Administrator'):
-        #     print ("Only Administrators can add donors")
-        #     continue
-        first_name = input("Enter first name: ")
-        last_name = input("Enter last name: ")
-        age = input("Enter age: ")
-        blood_type = input("Enter blood type: ")
-        email = input("Enter email: ")
-        allergens = input("Enter allergens: ")
-        user.add_donor(first_name, last_name, age, blood_type, email, allergens)
->>>>>>> 48feec2d3a211f90e3767b5ead4ab453e2662986
 
     elif action == 'request' and type(user) is Hospital:
         handle_request()
+
+    elif action == 'register' and type(user) is Donor:
+        handle_register()
 
     else:
         print('Command not recognised, please try again')
