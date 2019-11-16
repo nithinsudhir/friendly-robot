@@ -8,6 +8,13 @@ class Administrator(User):
     def add_deposit(self, donor_id, blood_type, expiry_date, amount):
         self.system.add_deposit(donor_id, blood_type, expiry_date, amount)
 
+    def print_instructions(self):
+        print('This system accepts the following commands:')
+        print('count - count number of blood deposits')
+        print('volume - count total volume of blood deposits')
+        print('add - add a blood sample to the system')
+        print('remove - remove a blood sample to the system')                
+        print('help - print all available commands\n\n')
     def remove_deposit(self, deposit_id):
         self.system.remove_deposit(deposit_id)
 

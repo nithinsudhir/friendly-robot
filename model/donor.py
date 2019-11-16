@@ -14,6 +14,12 @@ class Donor(User):
 
     def set_eligible(self, eligibility):
         self.is_elligible = eligibility
+    
+    def print_instructions(self):
+        print('This system accepts the following commands:')
+        print('register - register as a new donor')
+        print('status - check if you are currently registered as an active donor')
+        print('help - print all available commands\n\n')
 
     # returns a nicely formatted string representation of a donor when printed
     def __str__(self):
