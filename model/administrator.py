@@ -99,6 +99,8 @@ This system supports the following commands for Administrators:
 ----------------------------------------------------------------
 | volume         | count total volume of blood deposits        |
 ----------------------------------------------------------------
+| filter         | filter blood deposits by type               |
+----------------------------------------------------------------
 | add deposit    | add blood deposit to system                 |
 ----------------------------------------------------------------
 | remove deposit | remove blood deposit from system            |
