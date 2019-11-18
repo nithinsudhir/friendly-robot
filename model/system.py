@@ -1,4 +1,3 @@
-from model.deposit import Deposit
 from model.donor import Donor
 from model.request import Request
 from misc.read_data import get_deposits, get_donors, get_hospitals, get_requests
@@ -15,7 +14,6 @@ class System:
         self.hospitals = get_hospitals('data/hospitals.csv')
         self.requests = get_requests('data/requests.csv')
 
-    # proposed change to get_occurrences using new data representation
     def count_deposits(self, blood_type = None):
         num_deposits = 0
         if blood_type is None:
@@ -27,7 +25,6 @@ class System:
                     num_deposits += 1
         return num_deposits
 
-    # proposed change to get_amount_type using new data representation
     def count_volume(self, blood_type = None):
         volume = 0
         if blood_type is None:
@@ -69,31 +66,24 @@ class System:
 
         return scarce
 
-
-    # def get_occurences(self, blood_type):
-    #     count = 0
-    #     for item in self.blood_bank:
-    #         if  item.get_blood_type() == blood_type:
-    #             count += 1
-    #     return count
-    def add_donor(self, user, first_name, last_name, age, blood_type, email, allergens):
-        donor_id = len(self.donors) + 1
+    def add_donor(self, first_name, last_name, age, blood_type, email, allergens):
+        donor_id = max(self.donors)[0] + 1
         donor = [int(donor_id), first_name, last_name, int(age), int(blood_type), email, allergens]
         self.donors.append(donor)
         write_donor(donor, 'data/donors.csv')
     
     def remove_donor(self, donor_id):
-        del self.donors[donor_id]
+        self.donors.remove(self.get_donor(donor_id))
         delete_donor(donor_id, 'data/donors.csv')
 
     def add_deposit(self, donor_id, blood_type, expiry_date, amount):
-        deposit_id = len(self.deposits)
+        deposit_id = max(self.deposits)[0] + 1
         deposit = [deposit_id, donor_id, blood_type, expiry_date, amount]
         self.deposits.append(deposit)
         write_deposit(deposit, 'data/deposits.csv')
 
     def remove_deposit(self, deposit_id):
-        del self.deposits[deposit_id]
+        self.deposits.remove(self.get_deposit(deposit_id))
         delete_deposit(deposit_id, 'data/deposits.csv')
 
     def request_blood(self, hospital_id, blood_type, amount):
@@ -116,4 +106,12 @@ class System:
                 return deposit[0]
         return -1
 
+    def get_deposit(self, deposit_id):
+        for deposit in self.deposits:
+            if deposit[0] == deposit_id:
+                return deposit
 
+    def get_donor(self, donor_id):
+        for donor in self.donors:
+            if donor[0] == donor_id:
+                return donor
