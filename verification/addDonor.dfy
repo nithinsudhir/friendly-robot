@@ -63,4 +63,3 @@ ensures forall k : int :: (0 <= k < |updated|  ==> (updated[k] != null));
     updated := updated + [newDonor];   
    
 }
-
