@@ -1,33 +1,47 @@
-# Sorts a list of deposits by one certain attribute. If attributen is negative, return in reverse order
+# Sorts a list of deposits by one certain attribute. Attribute must be unique. If attributen is negative, return in reverse order
 def sort_deposits_by(attributen,deposits):
     if attributen > 0:
-        deposits = mergesort(attributen,deposits)
+        uniquenums = [row[attributen] for row in deposits]
+        uniquenums = mergesort(uniquenums)
+
+        sorted_deposits = []
+        for i in uniquenums:
+            for row in deposits:
+                if row[attributen] == i:
+                    sorted_deposits.append(row)
     else:
         # Reverses order 
         attributen = -1*attributen
-        deposits = mergesort(attributen,deposits)
-        deposits.reverse()
 
-    return deposits
+        uniquenums = [row[attributen] for row in deposits]
+        uniquenums = mergesort(uniquenums)
 
-def mergesort(attributen,unsorted_deposits):
-    sorted_deposits=recursive_merge(attributen,list(unsorted_deposits),0,len(unsorted_deposits)-1)
+        sorted_deposits = []
+        for i in uniquenums:
+            for row in deposits:
+                if row[attributen] == i:
+                    sorted_deposits.append(row)
+        sorted_deposits.reverse()
     return sorted_deposits
 
-def recursive_merge(attributen,u,lo,hi):
+def mergesort(unsorted_deposits):
+    sorted_deposits=recursive_merge(list(unsorted_deposits),0,len(unsorted_deposits)-1)
+    return sorted_deposits
+
+def recursive_merge(u,lo,hi):
     a = list(u)
     if lo >= hi:
         pass
     else:
         mid = (lo+hi)//2
-        a = recursive_merge(attributen,a,lo,mid)
-        a = recursive_merge(attributen,a,mid+1,hi)
-        a = merge(attributen,a,lo,mid,hi)
+        a = recursive_merge(a,lo,mid)
+        a = recursive_merge(a,mid+1,hi)
+        a = merge(a,lo,mid,hi)
     
 
     return a
 
-def merge(attributen,u,lo,mid,hi):
+def merge(u,lo,mid,hi):
     a = u.copy()
     tmp = [None]*(hi-lo+1)
     x = lo
@@ -41,7 +55,7 @@ def merge(attributen,u,lo,mid,hi):
         elif y > hi:
             tmp[i] = a[x]
             x = x+1
-        elif a[x][attributen] <= a[y][attributen]:
+        elif a[x] <= a[y]:
             tmp[i] = a[x]
             x = x+1
         else:
@@ -52,7 +66,7 @@ def merge(attributen,u,lo,mid,hi):
     # Much of this seems counterintuitive but is required to parallel with the limitations of Dafny
     i = 0
     while (i < hi-lo+1):
-        a[lo+i] = list(tmp[i])
+        a[lo+i] = tmp[i]
         i = i+1
 
     return a
