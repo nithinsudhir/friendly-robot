@@ -1,4 +1,4 @@
-// This method takes in an array of tuples containing every blood type and their respectice total 
+// This method takes in an array of tuples containing every blood type and their respective total 
 // volume in the blood bank and loops through each tuple, returning only the blood types and their amounts
 // who are lower than a provided limit.
 // The method returns a sequence of tuples that fall below the given limit

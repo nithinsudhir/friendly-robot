@@ -2,8 +2,7 @@ Donor ID,First Name,Last Name, Age, Blood Type, Email Address, Allergens
 0,Jill,Jones,30,0,JillJones@gmail.com,Penicillin
 1,Sam,Smith,92,1,SamSmith@gmail.com,Penicillin
 2,Bob,Jones,31,2,BobJones@gmail.com,Peanuts
-6,Jack,Smith,85,6,JackSmith@gmail.com,Peanuts
-7,Sam,Johnson,40,7,SamJohnson@gmail.com,Cheese
-8,Bob,Williams,32,0,BobWilliams@gmail.com,Penicillin
-9,Bob,Jones,26,1,BobJones@gmail.com,Cheese
-8, Ellen, D, 56, 6, ellen@gmail.com, N/A
+3,Jack,Smith,85,6,JackSmith@gmail.com,Peanuts
+4,Sam,Johnson,40,7,SamJohnson@gmail.com,Cheese
+5,Bob,Williams,32,0,BobWilliams@gmail.com,Penicillin
+6,Bob,Jones,26,1,BobJones@gmail.com,Cheese

@@ -1,4 +1,5 @@
 from model.user import User
+from misc.utility_functions import *
 
 class Hospital(User):
 
@@ -7,12 +8,25 @@ class Hospital(User):
     def __init__(self, system):
         self.id = Hospital.__ID
         self.system = system
-        self.user_type = 'Hospital'
         Hospital.__ID += 1
 
+    def request_blood(self):
+        blood_type = type_to_int(input('Enter blood type (A|B|AB|O)[+-]: '))
+        amount = int(input('Enter amount: '))
+        if self.system.request_blood(self.id, blood_type, amount):
+            print('Request accepted.')
+        else:
+            print('Request rejected.')
+    
     def print_instructions(self):
-        print('This system accepts the following commands:')
-        print('request - request a specific blood type')
-        print('help - print all available commands\n\n')
-    def request_blood(self, blood_type, amount):
-        return self.system.request_blood(self.id, blood_type, amount)
+        print(
+'''
+----------------------------------------------------------------
+This system supports the following commands for Hospitals:
+----------------------------------------------------------------
+| request blood  | request blood deposit from system           |
+----------------------------------------------------------------
+| help           | print all available commands                |
+----------------------------------------------------------------
+'''
+        )
