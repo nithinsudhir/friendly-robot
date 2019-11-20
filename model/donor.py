@@ -12,6 +12,10 @@ class Donor(User):
         self.email = email
         self.allergens = allergens
         self.is_elligible = self.get_eligibility()
+        if self.is_elligible:
+            print('Congratulations! You are eligible to donate blood.')
+        else:
+            print('Sorry, you are not eligible to donate blood.')
 
     def get_eligibility(self):
         return True if self.age < 75 and self.allergens is '' else False
