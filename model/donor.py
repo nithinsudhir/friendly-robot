@@ -30,8 +30,6 @@ class Donor(User):
 ----------------------------------------------------------------
 This system supports the following commands for Donors:
 ----------------------------------------------------------------
-| register   | register as donor in system                     |
-----------------------------------------------------------------
 | donate     | donate blood deposit                            |
 ----------------------------------------------------------------
 | help       | print all available commands                    |

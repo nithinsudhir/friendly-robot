@@ -69,6 +69,10 @@ class System:
         return scarce
 
     def add_donor(self, first_name, last_name, age, blood_type, email, allergens):
+        for donor in self.donors:
+            if email.strip() == donor[5].strip():
+                print("Already registered!")
+                return
         donor_id = max(self.donors)[0] + 1
         donor = [int(donor_id), first_name, last_name, int(age), int(blood_type), email, allergens]
         self.donors.append(donor)

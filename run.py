@@ -20,7 +20,9 @@ def login(current_user):
         blood_type = input('Enter blood type (A|B|AB|O)[+-]: ')
         email = input('Enter email: ')
         allergens = input('Enter allergens (if applicable): ')
-        return Donor(system, first_name, last_name, age, blood_type, email, allergens)
+        donor = Donor(system, first_name, last_name, age, blood_type, email, allergens)
+        donor.register()
+        return donor
     else:
         print('Invalid user. Please try again')
         current_user = input('Please enter your user type (A/H/D): ')
