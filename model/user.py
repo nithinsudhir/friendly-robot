@@ -32,6 +32,12 @@ class User(ABC):
     def warn_scarce_blood_types(self):
         pass
 
+    def register(self):
+        print(f"{self.__class__.__name__}'s cannot register as donors'")
+
+    def donate_blood(self):
+        print(f"{self.__class__.__name__}'s cannot donate blood'")
+
     @abstractmethod
     def print_instructions(self):
         pass

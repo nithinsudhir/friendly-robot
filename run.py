@@ -66,6 +66,12 @@ if __name__ == '__main__':
 
         elif action == 'request blood':
             user.request_blood()
+        
+        elif action == 'register':
+            user.register()
+        
+        elif action == 'donate':
+            user.donate_blood()
 
         else:
             print('Command not recognised, please try again')
