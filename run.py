@@ -8,11 +8,12 @@ from misc.messages import *
 import re
 
 def login(current_user):
-    if current_user == 'A':
+    current_user = current_user.lower()
+    if current_user == 'a':
         return Administrator(system)
-    elif current_user == 'H':
+    elif current_user == 'h':
         return Hospital(system)
-    elif current_user == 'D':
+    elif current_user == 'd':
         first_name = input('Enter first name: ')
         last_name = input('Enter last name: ')
         age = int(input('Enter age: '))
@@ -72,6 +73,12 @@ if __name__ == '__main__':
         
         elif action == 'donate':
             user.donate_blood()
+
+        elif action == 'sort blood':
+            user.sort_by_expiry()
+        elif action == 'logout':
+            print(type(user).__name__+ " logging out")
+            exit()
 
         else:
             print('Command not recognised, please try again')

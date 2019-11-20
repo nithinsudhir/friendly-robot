@@ -56,6 +56,12 @@ def is_expired(expriy_date_int):
         return True
     else:
         return False
+    
+def coloured_date(expiry,date):
+    if is_expired(expiry):
+        return '\033[93m'+date+'\033[0m'
+    else:
+        return '\033[92m'+date+'\033[0m'
 
 def display_results(deposits):
     print('\nDeposit ID\tDonor ID\tBlood Type\tExpiry Date\tAmount')
@@ -65,7 +71,10 @@ def display_results(deposits):
     deposits = sort.sort_deposits_by(3,deposits)
 
     for i in range(len(deposits)):
-        print(deposits[i][0],'\t\t',deposits[i][1],'\t\t',deposits[i][2],'\t\t',deposits[i][3],'\t\t',deposits[i][4],'\t\t')
+        expiry = deposits[i][3]
+        date = datetime.datetime.fromtimestamp(expiry).strftime('%d/%m/%Y')
+        date = coloured_date(expiry, date)
+        print(deposits[i][0],'\t\t',deposits[i][1],'\t\t',deposits[i][2],'\t\t',date,'\t\t',deposits[i][4],'\t\t')
     print('\n')
 
 def print_scarce_blood(volumes):
