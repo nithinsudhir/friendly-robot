@@ -73,6 +73,9 @@ if __name__ == '__main__':
         elif action == 'donate':
             user.donate_blood()
 
+        elif action == 'sort blood':
+            user.sort_by_expiry()
+
         else:
             print('Command not recognised, please try again')
             continue

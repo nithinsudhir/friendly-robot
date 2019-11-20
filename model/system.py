@@ -2,8 +2,10 @@ from model.donor import Donor
 from model.request import Request
 from misc.read_data import get_deposits, get_donors, get_hospitals, get_requests
 from misc.write_data import write_deposit, delete_deposit, write_request, write_donor, delete_donor
-from misc.utility_functions import is_expired
+from misc.utility_functions import *
 import os
+import time
+import datetime
 
 CURRENT_DIRECTORY = os.getcwd()
 
@@ -115,3 +117,19 @@ class System:
         for donor in self.donors:
             if donor[0] == donor_id:
                 return donor
+
+    def sort_by_expiry(self):
+        
+        print('\nDeposit ID\tDonor ID\tBlood Type\tExpiry Date\tAmount')
+        print('----------------------------------------------------------------------')
+    
+        # Sorts with soonest expiry first
+        self.deposits = sort.sort_deposits_by(3,self.deposits)
+
+        for i in range(len(self.deposits)):
+            expiry = self.deposits[i][3]
+            date = datetime.datetime.fromtimestamp(expiry).strftime('%d/%m/%Y')
+            date = coloured_date(expiry, date)
+            
+            print(self.deposits[i][0],'\t\t',self.deposits[i][1],'\t\t',self.deposits[i][2],'\t\t',date,'\t\t',self.deposits[i][4],'\t\t')
+        print('\n')

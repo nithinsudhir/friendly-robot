@@ -1,5 +1,6 @@
 from model.user import User
 from misc.utility_functions import *
+import misc.sort as sort
 import re
 
 class Administrator(User):
@@ -90,6 +91,10 @@ class Administrator(User):
             print('Unrecognised blood type, please try again.')
             self.filter_blood()
 
+    def sort_by_expiry(self):
+        self.system.sort_by_expiry()
+        
+
     def print_instructions(self):
         print(
 '''
@@ -107,6 +112,8 @@ This system supports the following commands for Administrators:
 | remove deposit | remove blood deposit from system            |
 ----------------------------------------------------------------
 | add donor      | add donor record to the system              |
+----------------------------------------------------------------
+| sort blood     | sorts blood by expiry (in asc order)        |
 ----------------------------------------------------------------
 | remove donor   | remove donor record from the system         |
 ----------------------------------------------------------------
