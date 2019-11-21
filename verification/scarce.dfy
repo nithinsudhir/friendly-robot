@@ -2,24 +2,24 @@
 // volume in the blood bank and loops through each tuple, returning only the blood types and their amounts
 // who are lower than a provided limit.
 // The method returns a sequence of tuples that fall below the given limit
-method findScarce(a:array<array<int>>, limit: int) returns (scarce: seq<array<int>>)
+method findScarce(a:seq<array<int>>, limit: int) returns (scarce: seq<array<int>>)
   // Pre-Conditions:
-  //    - Array 'a' has at least 1 entry and is not null
+  //    - Array 'a' has at least 1 entry and is not empty
   //    - Every smaller array has length 2 (is a tuple)
-  requires a != null && a.Length > 0;
-  requires forall k :: 0 <= k < a.Length ==> a[k] != null;
-  requires forall k :: 0 <= k < a.Length ==> a[k].Length == 2;
+  requires a != [] && |a| > 0;
+  requires forall k :: 0 <= k < |a| ==> a[k] != null;
+  requires forall k :: 0 <= k < |a| ==> a[k].Length == 2;
 
   // Post-Condition: 
   //    - Every entry that is below the given limit is recorded in 'scarce'
   //    - Every entry in 'scarce' is not null
-  ensures forall k: int :: (0 <= k < a.Length ==> ((a[k][1] <= limit) ==> a[k] in scarce));
+  ensures forall k: int :: (0 <= k < |a| ==> ((a[k][1] <= limit) ==> a[k] in scarce));
   ensures forall k: int :: (0 <= k < |scarce| ==> (scarce[k] != null && scarce[k] in multiset(a[..])));
 {
   var i : int := 0;
   scarce := [];
-  while (i < a.Length)
-    invariant 0 <= i <= a.Length;
+  while (i < |a|)
+    invariant 0 <= i <= |a|;
     invariant forall k: int :: (0 <= k < i ==> ((a[k][1] <= limit) ==> a[k] in scarce));
     invariant forall k: int :: (0 <= k < |scarce| ==> (scarce[k] != null && scarce[k] in multiset(a[..])));
   {
@@ -41,8 +41,8 @@ method Main() {
   a3[0], a3[1] := 2, 3000;
   var a4: array<int> := new int[2];
   a4[0], a4[1] := 3, 4000;
-  var deposits: array<array> := new array[4];
-  deposits[0], deposits[1], deposits[2], deposits[3] := a1, a2, a3, a4;
+  var deposits: seq<array<int>> := [];
+  deposits := deposits + [a1] + [a2] + [a3] + [a4];
 
   var i: seq<array<int>> := findScarce(deposits,3000);
   var j : int := 0;
