@@ -1,3 +1,6 @@
+//This program verifies the Mergesort algorithm as is used for the purpose of the Blood Bank system (misc/sort.py)
+
+
 //Is true if whole array is sorted
 predicate Sorted(a:array<int>)
   reads a;
@@ -15,7 +18,7 @@ predicate SortedBetween(a:array<int>,lo:int,hi:int)
   forall m, n :: lo <= m < n <= hi ==> a[m] <= a[n]
 }
 
-//MergeSort function
+//MergeSort function. Returns a sorted array.
 method MergeSort(u:array<int>) returns (a:array<int>)
   requires u != null && u.Length > 0;
   ensures a != null;
@@ -58,7 +61,7 @@ method RecursiveMerge(u:array<int>,lo:int,hi:int) returns (a:array<int>)
 method Merge(u:array<int>, lo:int, mid:int, hi:int) returns (a:array<int>)
 requires u != null && u.Length > 0;
 requires 0 <= lo <= mid <= hi < u.Length;
-requires SortedBetween(u,lo,mid);
+requires SortedBetween(u,lo,mid); // the array being merged is already sorted
 requires hi <= mid || SortedBetween(u,mid+1,hi);
 
 ensures a != null;
@@ -83,7 +86,7 @@ decreases hi-lo; //array becomes smaller
     invariant lo <= x <= mid+1; 
     invariant mid+1 <= y <= hi+1; 
     
-    invariant (x-lo) + (y-(mid+1)) == i; // i aligns properly.
+    invariant (x-lo) + (y-(mid+1)) == i; // i is in the right place with respect to each 'arrays' position
     invariant i == 0 || SortedBetween(tmp,0,i-1); // tmp is always sorted
     invariant forall q, r:: 0 <= q < i && (x <= r <= mid || y <= r <= hi) ==> tmp[q] <= a[r]; //both arrays have been merged correctly
   {
@@ -137,6 +140,7 @@ method Main()
   assert arr[3] == 6;
   assert arr[4] == 7;
   arr := MergeSort(arr);
-  print arr[..];
+  assert Sorted(arr);
+  print arr[..],"\n";
 
 }

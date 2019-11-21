@@ -42,6 +42,10 @@ method addDonor(donors: array<array<int>>, newDonor : array<int>)  returns (upda
 //  - newDonor to be inserted has 7 elements (corresponding to donor id, firstname, lastname, age, blood type, email, allergens)
 requires donors!= null
 requires donors.Length >= 0
+
+requires newDonor != null
+requires forall b:: 0 <= b < donors.Length ==> donors[b] != null
+
 requires forall r : int :: (0 <= r < donors.Length ==> donors[r] != newDonor) 
 requires forall r : int :: (0 <= r < donors.Length ==> donors[r].Length == 7)
 requires newDonor.Length == 7
@@ -50,14 +54,19 @@ requires newDonor.Length == 7
 //  - Updated sequence contains all records taht exist= in donors array + the newDonor record
 //  - All records in the updated sequence are not null
 ensures forall r : int :: (0 <= r < donors.Length ==> (donors[r] in updated && newDonor in updated))
-ensures forall k : int :: (0 <= k < |updated|  ==> (updated[k] != null));
+ensures forall k : int :: 0 <= k < |updated|  ==> (updated[k] != null);
 {   
+    updated := [];
+    assert updated == [];
     var i := 0;
     while(i < donors.Length)
     invariant 0 <= i <= donors.Length 
     invariant forall k : int :: (0 <= k < i ==> donors[k] in updated)
+    invariant forall k : int :: 0 <= k < |updated|  ==> (updated[k] != null);
     {
+        assert donors[i] != null;
         updated := updated + [donors[i]];
+        assert updated[|updated|-1] != null;
         i := i + 1;
     }
     updated := updated + [newDonor];   
