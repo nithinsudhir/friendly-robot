@@ -40,6 +40,7 @@ method addDonor(donors: seq<array<int>>, newDonor : array<int>)  returns (update
 //  - The newDonor record does not already exist in donors array
 //  - Each sub-array in donors has 7 elements (corresponding to donor id, firstname, lastname, age, blood type, email, allergens)
 //  - newDonor to be inserted has 7 elements (corresponding to donor id, firstname, lastname, age, blood type, email, allergens)
+
 requires newDonor != null;
 requires donors != [] && |donors| >= 0;
 requires forall r : int :: (0 <= r < |donors| ==> donors[r] != null);
@@ -52,15 +53,21 @@ requires newDonor.Length == 7;
 //  - All records in the updated sequence are not null
 ensures forall r : int :: (0 <= r < |donors| ==> (donors[r] in updated && newDonor in updated));
 ensures forall k : int :: (0 <= k < |updated|  ==> (updated[k] != null));
+
 {   
+    updated := [];
+    assert updated == [];
     var i := 0;
     updated := [];
     while(i < |donors|)
     invariant 0 <= i <= |donors|
     invariant forall k : int :: (0 <= k < i ==> donors[k] in updated)
     invariant forall k : int :: (0 <= k < |updated|  ==> (updated[k] != null))
+
     {
+        assert donors[i] != null;
         updated := updated + [donors[i]];
+        assert updated[|updated|-1] != null;
         i := i + 1;
     }
     updated := updated + [newDonor];   
