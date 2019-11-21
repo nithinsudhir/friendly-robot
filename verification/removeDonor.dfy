@@ -43,6 +43,7 @@ method removeDonor(donors: array <array<int>>, v: int) returns (updated : seq<ar
 //  - Donor id to be removed must exist in the donors array 
 requires donors != null
 requires donors.Length > 0
+requires forall r : int :: (0 <= r < donors.Length ==> donors[r] != null);
 requires forall k : int :: (0 <= k < donors.Length ==> donors[k].Length == 7) 
 requires exists k : int :: 0 <= k < donors.Length && donors[k][0] == v 
 

@@ -40,22 +40,26 @@ method addDonor(donors: array<array<int>>, newDonor : array<int>)  returns (upda
 //  - The newDonor record does not already exist in donors array
 //  - Each sub-array in donors has 7 elements (corresponding to donor id, firstname, lastname, age, blood type, email, allergens)
 //  - newDonor to be inserted has 7 elements (corresponding to donor id, firstname, lastname, age, blood type, email, allergens)
-requires donors!= null
-requires donors.Length >= 0
-requires forall r : int :: (0 <= r < donors.Length ==> donors[r] != newDonor) 
-requires forall r : int :: (0 <= r < donors.Length ==> donors[r].Length == 7)
-requires newDonor.Length == 7
+requires donors != null;
+requires newDonor != null;
+requires donors.Length >= 0;
+requires forall r : int :: (0 <= r < donors.Length ==> donors[r] != null);
+requires forall r : int :: (0 <= r < donors.Length ==> donors[r] != newDonor);
+requires forall r : int :: (0 <= r < donors.Length ==> donors[r].Length == 7);
+requires newDonor.Length == 7;
 
 //Post Condition
 //  - Updated sequence contains all records taht exist= in donors array + the newDonor record
 //  - All records in the updated sequence are not null
-ensures forall r : int :: (0 <= r < donors.Length ==> (donors[r] in updated && newDonor in updated))
+ensures forall r : int :: (0 <= r < donors.Length ==> (donors[r] in updated && newDonor in updated));
 ensures forall k : int :: (0 <= k < |updated|  ==> (updated[k] != null));
 {   
     var i := 0;
+    updated := [];
     while(i < donors.Length)
-    invariant 0 <= i <= donors.Length 
+    invariant 0 <= i <= donors.Length
     invariant forall k : int :: (0 <= k < i ==> donors[k] in updated)
+    invariant forall k : int :: (0 <= k < |updated|  ==> (updated[k] != null))
     {
         updated := updated + [donors[i]];
         i := i + 1;
