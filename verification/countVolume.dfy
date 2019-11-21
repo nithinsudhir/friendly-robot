@@ -1,7 +1,7 @@
 // This recursive function partially verifies the sum of a sequence of arrays at the last value
 function partialSum( a:seq<array<int>>, n:int ) : int
   // Pre-Conditions:
-  //    - Sequence 'a' is not null and each entry contains the volume at the last index (index 4)
+  //    - Sequence 'a' is not empty and each entry contains the volume at the last index (index 4)
   requires 0 <= n <= |a|;
   requires forall k :: 0 <= k < |a| ==> a[k] != null && a[k].Length == 5;
   decreases n;
@@ -32,19 +32,19 @@ method sum_volume( a:seq<array<int>> ) returns (sum: int)
 }
 
 // The filter method is verified in 'filter.dy' and is used in the count_volume function aswell
-method filter(a:array<array<int>>, attribute: int, value: int) returns (filtered: seq<array<int>>)
-  requires a != null && a.Length > 0;
-  requires forall k :: 0 <= k < a.Length ==> a[k] != null && a[k].Length == 5;
+method filter(a:seq<array<int>>, attribute: int, value: int) returns (filtered: seq<array<int>>)
+  requires a != [] && |a| > 0;
+  requires forall k :: 0 <= k < |a| ==> a[k] != null && a[k].Length == 5;
   requires 0 <= attribute < 5;
 
-  ensures forall k: int :: (0 <= k < a.Length ==> ((a[k][attribute] == value) ==> a[k] in filtered));
+  ensures forall k: int :: (0 <= k < |a| ==> ((a[k][attribute] == value) ==> a[k] in filtered));
   ensures forall k: int :: (0 <= k < |filtered| ==> (filtered[k] != null && filtered[k].Length == 5));
   ensures forall k: int :: (0 <= k < |filtered| ==> filtered[k] in multiset(a[..]));
 {
   var i : int := 0;
   filtered := [];
-  while (i < a.Length)
-    invariant 0 <= i <= a.Length;
+  while (i < |a|)
+    invariant 0 <= i <= |a|;
     invariant forall k: int :: (0 <= k < i ==> ((a[k][attribute] == value) ==> a[k] in filtered));
     invariant forall k: int :: (0 <= k < |filtered| ==> (filtered[k] != null && filtered[k].Length == 5));
     invariant forall k: int :: (0 <= k < |filtered| ==> filtered[k] in multiset(a[..]));
@@ -59,9 +59,9 @@ method filter(a:array<array<int>>, attribute: int, value: int) returns (filtered
 
 // This method combines the filter method and the sum methods
 // to give us the total volume of blood for a given type
-method count_volume(deposits:array<array<int>>, value: int) returns (volume: int)
-  requires deposits != null && deposits.Length > 0;
-  requires forall k :: 0 <= k < deposits.Length ==> deposits[k] != null && deposits[k].Length == 5;
+method count_volume(deposits: seq<array<int>>, value: int) returns (volume: int)
+  requires deposits != [] && |deposits| > 0;
+  requires forall k :: 0 <= k < |deposits| ==> deposits[k] != null && deposits[k].Length == 5;
 {
   // Note that the blood_type will always be at the 2nd index of each deposit (index == 1)
   var filtered: seq<array<int>> := filter(deposits,1,value);
@@ -86,9 +86,9 @@ method Main() {
   a7[0], a7[1], a7[2], a7[3], a7[4] := 6, 2, 22, 32, 452;
   var a8: array<int> := new int[5];
   a8[0], a8[1], a8[2], a8[3], a8[4] := 7, 3, 23, 33, 423;
-  var deposits: array<array> := new array[8];
-  deposits[0], deposits[1], deposits[2], deposits[3] := a1, a2, a3, a4;
-  deposits[4], deposits[5], deposits[6], deposits[7] := a5, a6, a7, a8;
+  var deposits: seq<array<int>> := [];
+  deposits := deposits + [a1] + [a2] + [a3] + [a4];
+  deposits := deposits + [a5] + [a6] + [a7] + [a8];
 
   var filtered: seq<array<int>> := filter(deposits,1,2);
   var j : int := 0;
