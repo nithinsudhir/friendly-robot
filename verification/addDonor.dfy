@@ -10,9 +10,9 @@ method Main()
     a3[0], a3[1], a3[2], a3[3], a3[4], a3[5], a3[6] := 2, 11, 22, 32, 42, 52, 62;
     
     //Donors is a 2D array of donor records a1, a2 and a3
-    var donors: array<array> := new array[3];
-    donors[0], donors[1], donors[2] := a1, a2, a3;
-
+    var donors: seq<array> := [];
+    donors := donors + [a1] + [a2] + [a3];
+    
     //a4 is the donor record to be added to donors
     var a4: array<int> := new int[7];
     a4[0], a4[1], a4[2], a4[3], a4[4], a4[5], a4[6] := 3, 11, 23, 33, 43, 53, 63;
@@ -33,31 +33,30 @@ method Main()
 }
 
 
-method addDonor(donors: array<array<int>>, newDonor : array<int>)  returns (updated: seq <array<int>>)
+method addDonor(donors: seq<array<int>>, newDonor : array<int>)  returns (updated: seq <array<int>>)
 // Pre Conditions
 //  - Donors array is not null
 //  - Donors array length is 0 or more
 //  - The newDonor record does not already exist in donors array
 //  - Each sub-array in donors has 7 elements (corresponding to donor id, firstname, lastname, age, blood type, email, allergens)
 //  - newDonor to be inserted has 7 elements (corresponding to donor id, firstname, lastname, age, blood type, email, allergens)
-requires donors != null;
 requires newDonor != null;
-requires donors.Length >= 0;
-requires forall r : int :: (0 <= r < donors.Length ==> donors[r] != null);
-requires forall r : int :: (0 <= r < donors.Length ==> donors[r] != newDonor);
-requires forall r : int :: (0 <= r < donors.Length ==> donors[r].Length == 7);
+requires donors != [] && |donors| >= 0;
+requires forall r : int :: (0 <= r < |donors| ==> donors[r] != null);
+requires forall r : int :: (0 <= r < |donors| ==> donors[r] != newDonor);
+requires forall r : int :: (0 <= r < |donors| ==> donors[r].Length == 7);
 requires newDonor.Length == 7;
 
 //Post Condition
 //  - Updated sequence contains all records taht exist= in donors array + the newDonor record
 //  - All records in the updated sequence are not null
-ensures forall r : int :: (0 <= r < donors.Length ==> (donors[r] in updated && newDonor in updated));
+ensures forall r : int :: (0 <= r < |donors| ==> (donors[r] in updated && newDonor in updated));
 ensures forall k : int :: (0 <= k < |updated|  ==> (updated[k] != null));
 {   
     var i := 0;
     updated := [];
-    while(i < donors.Length)
-    invariant 0 <= i <= donors.Length
+    while(i < |donors|)
+    invariant 0 <= i <= |donors|
     invariant forall k : int :: (0 <= k < i ==> donors[k] in updated)
     invariant forall k : int :: (0 <= k < |updated|  ==> (updated[k] != null))
     {
