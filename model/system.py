@@ -2,8 +2,10 @@ from model.donor import Donor
 from model.request import Request
 from misc.read_data import get_deposits, get_donors, get_hospitals, get_requests
 from misc.write_data import write_deposit, delete_deposit, write_request, write_donor, delete_donor
-from misc.utility_functions import is_expired
+from misc.utility_functions import *
 import os
+import time
+import datetime
 
 CURRENT_DIRECTORY = os.getcwd()
 
@@ -71,6 +73,10 @@ class System:
         return scarce
 
     def add_donor(self, first_name, last_name, age, blood_type, email, allergens):
+        for donor in self.donors:
+            if email.strip() == donor[5].strip():
+                print("Already registered!")
+                return
         donor_id = max(self.donors)[0] + 1
         donor = [int(donor_id), first_name, last_name, int(age), int(blood_type), email, allergens]
         self.donors.append(donor)
@@ -119,3 +125,26 @@ class System:
         for donor in self.donors:
             if donor[0] == donor_id:
                 return donor
+    
+    def get_donor_by_email(self, donor_email):
+        for donor in self.donors:
+            if donor[5] == donor_email:
+                return donor
+
+    def sort_by_expiry(self):
+        
+        print('\nDeposit ID\tDonor ID\tBlood Type\tExpiry Date\tAmount')
+        print('----------------------------------------------------------------------')
+    
+        # Sorts with soonest expiry first
+        self.deposits = sort.sort_deposits_by(3,self.deposits)
+
+        for i in range(len(self.deposits)):
+            expiry = self.deposits[i][3]
+            date = datetime.datetime.fromtimestamp(expiry).strftime('%d/%m/%Y')
+            date = coloured_date(expiry, date)
+            b_type = self.deposits[i][2]
+            out = str(int_to_blood_type(int(b_type)))
+            
+            print(self.deposits[i][0],'\t\t',self.deposits[i][1],'\t\t',out,'\t\t',date,'\t',self.deposits[i][4],'\t\t')
+        print('\n')

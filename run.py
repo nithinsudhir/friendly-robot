@@ -8,23 +8,57 @@ from misc.messages import *
 import re
 
 def login(current_user):
-    if current_user == 'A':
+    current_user = current_user.lower()
+    if current_user == 'a':
         return Administrator(system)
-    elif current_user == 'H':
+    elif current_user == 'h':
         return Hospital(system)
-    elif current_user == 'D':
-        first_name = input('Enter first name: ')
-        last_name = input('Enter last name: ')
-        age = int(input('Enter age: '))
-        blood_type = input('Enter blood type (A|B|AB|O)[+-]: ')
-        email = input('Enter email: ')
-        allergens = input('Enter allergens (if applicable): ')
-        return Donor(system, first_name, last_name, age, blood_type, email, allergens)
+    elif current_user == 'd':
+        print_donor_prompt()
+        option = input('Enter option: ')
+        if option == 'register':
+            first_name = input('Enter first name: ')
+            last_name = input('Enter last name: ')
+            age = int(input('Enter age: '))
+            blood_type = input('Enter blood type (A|B|AB|O)[+-]: ')
+            email = input('Enter email: ')
+            allergens = input('Enter allergens (N/A if none): ')
+            donor = Donor(system, first_name, last_name, age, blood_type, email, allergens)
+            donor.register()
+        elif option == 'login':
+            email = input('Enter email address: ')
+            donor = system.get_donor_by_email(email)
+            if donor:
+                first_name = donor[1]
+                last_name = donor[2]
+                age = int(donor[3])
+                blood_type = int(donor[4])
+                email = donor[5]
+                allergens = donor[6]
+                donor = Donor(system, first_name, last_name, age, blood_type, email, allergens)
+            else:
+                print(f'No record of donor with email address {email}. Please try again.')
+                current_user = input('Please enter your user type (A/H/D): ')
+                user = login(current_user)
+        return donor
     else:
         print('Invalid user. Please try again')
         current_user = input('Please enter your user type (A/H/D): ')
         user = login(current_user)
         return user
+
+def print_donor_prompt():
+    print(
+'''
+----------------------------------------------------------------
+Please choose an option:
+----------------------------------------------------------------
+| login      | login as an existing donor                      |
+----------------------------------------------------------------
+| register   | register as a donor                             |
+----------------------------------------------------------------
+'''
+)
 
 if __name__ == '__main__':
 
@@ -72,6 +106,13 @@ if __name__ == '__main__':
         
         elif action == 'donate':
             user.donate_blood()
+
+        elif action == 'sort blood':
+            user.sort_by_expiry()
+
+        elif action == 'logout':
+            print(type(user).__name__+ " logging out")
+            exit()
 
         else:
             print('Command not recognised, please try again')
