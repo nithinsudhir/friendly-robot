@@ -1,4 +1,3 @@
-fjkdbfjkdsbfjkbsdkjbfjkdsbjfdjkdsbf
 // This method interprets the record of blood deposits as an array of arrays
 // We denote the larger array representing the record of deposits as 'a' whose entries are smaller arrays
 // We note that these smaller arrays represent each individual entry 
