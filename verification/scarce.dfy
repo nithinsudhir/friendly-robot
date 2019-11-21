@@ -14,14 +14,14 @@ method findScarce(a:array<array<int>>, limit: int) returns (scarce: seq<array<in
   //    - Every entry that is below the given limit is recorded in 'scarce'
   //    - Every entry in 'scarce' is not null
   ensures forall k: int :: (0 <= k < a.Length ==> ((a[k][1] <= limit) ==> a[k] in scarce));
-  ensures forall k: int :: (0 <= k < |scarce| ==> (scarce[k] != null));
+  ensures forall k: int :: (0 <= k < |scarce| ==> (scarce[k] != null && scarce[k] in multiset(a[..])));
 {
   var i : int := 0;
   scarce := [];
   while (i < a.Length)
     invariant 0 <= i <= a.Length;
     invariant forall k: int :: (0 <= k < i ==> ((a[k][1] <= limit) ==> a[k] in scarce));
-    invariant forall k: int :: (0 <= k < |scarce| ==> (scarce[k] != null));
+    invariant forall k: int :: (0 <= k < |scarce| ==> (scarce[k] != null && scarce[k] in multiset(a[..])));
   {
     if (a[i][1] <= limit) 
     { 

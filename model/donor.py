@@ -1,5 +1,7 @@
 from model.user import User
 from misc.utility_functions import date_to_int, type_to_int
+from time import time
+import datetime
 
 class Donor(User):
     def __init__(self, system, first_name, last_name, age, blood_type, email, allergens):
@@ -12,6 +14,10 @@ class Donor(User):
         self.email = email
         self.allergens = allergens
         self.is_elligible = self.get_eligibility()
+        if self.is_elligible:
+            print('Congratulations! You are eligible to donate blood.')
+        else:
+            print('Sorry, you are not eligible to donate blood.')
 
     def get_eligibility(self):
         return True if self.age < 75 and self.allergens is '' else False
@@ -21,7 +27,11 @@ class Donor(User):
 
     def donate_blood(self):
         amount = input('Enter amount (mL): ')
-        expiry_date = date_to_int(input('Enter expiry date (dd/mm/yyyy): '))
+        expiry_date = time()+ 42*86400
+        date = int(datetime.datetime.fromtimestamp(expiry_date).strftime('%d/%m/%Y'))
+        print("Donation accepted. We will email you when your blood has been used!")
+        print("Your blood will expire on "+ str(date))
+        # expiry_date = date_to_int(input('Enter expiry date (dd/mm/yyyy): '))
         self.system.add_deposit(self.id, self.blood_type, expiry_date, amount)
 
     def print_instructions(self):
@@ -29,8 +39,6 @@ class Donor(User):
 '''
 ----------------------------------------------------------------
 This system supports the following commands for Donors:
-----------------------------------------------------------------
-| register   | register as donor in system                     |
 ----------------------------------------------------------------
 | donate     | donate blood deposit                            |
 ----------------------------------------------------------------

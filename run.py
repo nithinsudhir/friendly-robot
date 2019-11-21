@@ -8,18 +8,21 @@ from misc.messages import *
 import re
 
 def login(current_user):
-    if current_user == 'A':
+    current_user = current_user.lower()
+    if current_user == 'a':
         return Administrator(system)
-    elif current_user == 'H':
+    elif current_user == 'h':
         return Hospital(system)
-    elif current_user == 'D':
+    elif current_user == 'd':
         first_name = input('Enter first name: ')
         last_name = input('Enter last name: ')
         age = int(input('Enter age: '))
         blood_type = input('Enter blood type (A|B|AB|O)[+-]: ')
         email = input('Enter email: ')
         allergens = input('Enter allergens (if applicable): ')
-        return Donor(system, first_name, last_name, age, blood_type, email, allergens)
+        donor = Donor(system, first_name, last_name, age, blood_type, email, allergens)
+        donor.register()
+        return donor
     else:
         print('Invalid user. Please try again')
         current_user = input('Please enter your user type (A/H/D): ')
@@ -75,6 +78,9 @@ if __name__ == '__main__':
 
         elif action == 'sort blood':
             user.sort_by_expiry()
+        elif action == 'logout':
+            print(type(user).__name__+ " logging out")
+            exit()
 
         else:
             print('Command not recognised, please try again')

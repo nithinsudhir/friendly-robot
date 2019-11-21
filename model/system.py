@@ -52,13 +52,17 @@ class System:
 
         return filtered
 
-    def get_scarce_blood_types(self, limit):
+    def get_all_blood_totals(self):
         blood_types = [0,1,2,3,4,5,6,7]
         # First create array of tuples [blood_type, volume]
         volumes = []
         for blood_type in blood_types:
             volume = self.count_volume(blood_type)
             volumes.append([blood_type,volume])
+        return volumes
+
+    def get_scarce_blood_types(self, limit):
+        volumes = self.get_all_blood_totals()
         scarce = []
         i = 0
         while (i < len(volumes)):
@@ -69,6 +73,10 @@ class System:
         return scarce
 
     def add_donor(self, first_name, last_name, age, blood_type, email, allergens):
+        for donor in self.donors:
+            if email.strip() == donor[5].strip():
+                print("Already registered!")
+                return
         donor_id = max(self.donors)[0] + 1
         donor = [int(donor_id), first_name, last_name, int(age), int(blood_type), email, allergens]
         self.donors.append(donor)
@@ -130,6 +138,8 @@ class System:
             expiry = self.deposits[i][3]
             date = datetime.datetime.fromtimestamp(expiry).strftime('%d/%m/%Y')
             date = coloured_date(expiry, date)
+            b_type = self.deposits[i][2]
+            out = str(int_to_blood_type(int(b_type)))
             
-            print(self.deposits[i][0],'\t\t',self.deposits[i][1],'\t\t',self.deposits[i][2],'\t\t',date,'\t\t',self.deposits[i][4],'\t\t')
+            print(self.deposits[i][0],'\t\t',self.deposits[i][1],'\t\t',out,'\t\t',date,'\t',self.deposits[i][4],'\t\t')
         print('\n')
