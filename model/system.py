@@ -52,13 +52,17 @@ class System:
 
         return filtered
 
-    def get_scarce_blood_types(self, limit):
+    def get_all_blood_totals(self):
         blood_types = [0,1,2,3,4,5,6,7]
         # First create array of tuples [blood_type, volume]
         volumes = []
         for blood_type in blood_types:
             volume = self.count_volume(blood_type)
             volumes.append([blood_type,volume])
+        return volumes
+
+    def get_scarce_blood_types(self, limit):
+        volumes = self.get_all_blood_totals()
         scarce = []
         i = 0
         while (i < len(volumes)):
