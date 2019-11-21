@@ -125,6 +125,11 @@ class System:
         for donor in self.donors:
             if donor[0] == donor_id:
                 return donor
+    
+    def get_donor_by_email(self, donor_email):
+        for donor in self.donors:
+            if donor[5] == donor_email:
+                return donor
 
     def sort_by_expiry(self):
         

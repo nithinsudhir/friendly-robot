@@ -20,7 +20,7 @@ class Donor(User):
             print('Sorry, you are not eligible to donate blood.')
 
     def get_eligibility(self):
-        return True if self.age < 75 and self.allergens is '' else False
+        return True if self.age < 75 and self.allergens == 'NA' else False
     
     def register(self):
         self.system.add_donor(self.first_name, self.last_name, self.age, self.blood_type, self.email, self.allergens)
@@ -44,5 +44,7 @@ This system supports the following commands for Donors:
 ----------------------------------------------------------------
 | help       | print all available commands                    |
 ----------------------------------------------------------------
-        '''
+| logout     | logout of the system                            |
+----------------------------------------------------------------
+'''
         )
