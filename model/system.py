@@ -134,6 +134,8 @@ class System:
             expiry = self.deposits[i][3]
             date = datetime.datetime.fromtimestamp(expiry).strftime('%d/%m/%Y')
             date = coloured_date(expiry, date)
+            b_type = self.deposits[i][2]
+            out = str(int_to_blood_type(int(b_type)))
             
-            print(self.deposits[i][0],'\t\t',self.deposits[i][1],'\t\t',self.deposits[i][2],'\t\t',date,'\t\t',self.deposits[i][4],'\t\t')
+            print(self.deposits[i][0],'\t\t',self.deposits[i][1],'\t\t',out,'\t\t',date,'\t',self.deposits[i][4],'\t\t')
         print('\n')
