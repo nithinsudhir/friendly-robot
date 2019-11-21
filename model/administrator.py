@@ -119,6 +119,8 @@ This system supports the following commands for Administrators:
 ----------------------------------------------------------------
 | help           | print all available commands                |
 ----------------------------------------------------------------
+| logout         | logout of the system                        |
+----------------------------------------------------------------
 '''
         )
     

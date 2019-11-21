@@ -28,5 +28,7 @@ This system supports the following commands for Hospitals:
 ----------------------------------------------------------------
 | help           | print all available commands                |
 ----------------------------------------------------------------
+| logout         | logout of the system                        |
+----------------------------------------------------------------
 '''
         )
